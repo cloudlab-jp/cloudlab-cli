@@ -7,60 +7,64 @@ public final class JavaTemplates {
     private JavaTemplates() {
     }
 
-    public static String controller(String module) {
+    public static String controller(String basePackage, String module) {
 
-        String className = StringUtils.capitalize(module);
+        String className = className(module);
 
         return """
-                package modules.%s.infrastructure.controller;
+                package %s.modules.%s.infrastructure.controller;
 
                 public class %sController {
 
                 }
-                """.formatted(module, className);
+                """.formatted(basePackage, module, className);
 
     }
 
-    public static String service(String module) {
+    public static String service(String basePackage, String module) {
 
-        String className = StringUtils.capitalize(module);
+        String className = className(module);
 
         return """
-                package modules.%s.application.service;
+                package %s.modules.%s.application.service;
 
                 public class %sService {
 
                 }
-                """.formatted(module, className);
+                """.formatted(basePackage, module, className);
 
     }
 
-    public static String entity(String module) {
+    public static String entity(String basePackage, String module) {
 
-        String className = StringUtils.capitalize(module);
+        String className = className(module);
 
         return """
-                package modules.%s.domain.model;
+                package %s.modules.%s.domain.model;
 
                 public class %s {
 
                 }
-                """.formatted(module, className);
+                """.formatted(basePackage, module, className);
 
     }
 
-    public static String repository(String module) {
+    public static String repository(String basePackage, String module) {
 
-        String className = StringUtils.capitalize(module);
+        String className = className(module);
 
         return """
-                package modules.%s.domain.repository;
+                package %s.modules.%s.domain.repository;
 
                 public interface %sRepository {
 
                 }
-                """.formatted(module, className);
+                """.formatted(basePackage, module, className);
 
+    }
+
+    private static String className(String module) {
+        return StringUtils.capitalize(module);
     }
 
 }
