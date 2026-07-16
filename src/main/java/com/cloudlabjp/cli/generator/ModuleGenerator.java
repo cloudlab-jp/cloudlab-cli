@@ -1,17 +1,19 @@
 package com.cloudlabjp.cli.generator;
 
+import com.cloudlabjp.cli.generator.model.GeneratedFile;
 import com.cloudlabjp.cli.project.ProjectInfo;
-import com.cloudlabjp.cli.template.JavaTemplates;
 import com.cloudlabjp.cli.template.ModuleTemplate;
 import com.cloudlabjp.cli.template.ModuleTemplates;
 import com.cloudlabjp.cli.util.ConsolePrinter;
 import com.cloudlabjp.cli.util.FileSystemUtils;
-import com.cloudlabjp.cli.util.StringUtils;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.List;
 
 public class ModuleGenerator {
+
+    private final JavaFileFactory javaFileFactory = new JavaFileFactory();
 
     public void generate(ProjectInfo project, String moduleName) {
 
@@ -22,8 +24,6 @@ public class ModuleGenerator {
                 .resolve("modules")
                 .resolve(moduleName);
 
-        String className = StringUtils.capitalize(moduleName);
-
         ConsolePrinter.info("Location: " + modulePath);
         ConsolePrinter.info("");
 
@@ -33,7 +33,7 @@ public class ModuleGenerator {
 
             createGitkeepFiles(template, modulePath);
 
-            createJavaFiles(project, moduleName, className, modulePath);
+            createJavaFiles(project, moduleName, modulePath);
 
         } catch (IOException e) {
 
@@ -75,28 +75,19 @@ public class ModuleGenerator {
 
     private void createJavaFiles(ProjectInfo project,
                                  String moduleName,
-                                 String className,
-                                 Path modulePath) throws IOException {
+                                 Path modulePath) {
 
-        FileGenerator.createFile(
-                modulePath.resolve("application/service/" + className + "Service.java"),
-                JavaTemplates.service(project.basePackage(), moduleName)
-        );
+        List<GeneratedFile> generatedFiles =
+                javaFileFactory.create(project, moduleName);
 
-        FileGenerator.createFile(
-                modulePath.resolve("domain/model/" + className + ".java"),
-                JavaTemplates.entity(project.basePackage(), moduleName)
-        );
+        for (GeneratedFile file : generatedFiles) {
 
-        FileGenerator.createFile(
-                modulePath.resolve("domain/repository/" + className + "Repository.java"),
-                JavaTemplates.repository(project.basePackage(), moduleName)
-        );
+            FileGenerator.createFile(
+                    modulePath.resolve(file.relativePath()),
+                    file.content()
+            );
 
-        FileGenerator.createFile(
-                modulePath.resolve("infrastructure/controller/" + className + "Controller.java"),
-                JavaTemplates.controller(project.basePackage(), moduleName)
-        );
+        }
 
     }
 
