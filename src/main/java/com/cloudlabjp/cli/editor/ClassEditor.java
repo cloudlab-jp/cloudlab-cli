@@ -40,4 +40,26 @@ public class ClassEditor {
 
     }
 
+    public String getClassName() {
+
+        return clazz.getNameAsString();
+
+    }
+
+    public boolean hasMethod(String name) {
+
+        return clazz.getMethods()
+                .stream()
+                .anyMatch(method ->
+                        method.getNameAsString().equals(name));
+
+    }
+
+    public void addImport(String importName) {
+
+        clazz.findCompilationUnit()
+                .ifPresent(unit -> unit.addImport(importName));
+
+    }
+
 }

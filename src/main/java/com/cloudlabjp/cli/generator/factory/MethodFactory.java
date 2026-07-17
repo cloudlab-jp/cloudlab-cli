@@ -16,4 +16,25 @@ public final class MethodFactory {
 
     }
 
+    public static MethodDefinition createMethod(String entityName) {
+
+        return new MethodDefinitionBuilder()
+
+                .name("create")
+
+                .returnType(entityName + "Response")
+
+                .parameter(
+                        "Create" + entityName + "Request",
+                        "request"
+                )
+
+                .body("""
+                    return null;
+                    """)
+
+                .build();
+
+    }
+
 }

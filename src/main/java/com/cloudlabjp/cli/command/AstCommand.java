@@ -1,7 +1,6 @@
 package com.cloudlabjp.cli.command;
 
-import com.cloudlabjp.cli.editor.JavaSourceEditor;
-import com.cloudlabjp.cli.generator.factory.MethodFactory;
+import com.cloudlabjp.cli.generator.feature.create.CreateFeatureGenerator;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
@@ -24,15 +23,8 @@ public class AstCommand implements Runnable {
     @Override
     public void run() {
 
-        JavaSourceEditor editor =
-                new JavaSourceEditor(file);
-
-        editor.classEditor()
-                .addMethod(
-                        MethodFactory.emptyMethod("generatedMethod")
-                );
-
-        editor.save();
+        new CreateFeatureGenerator()
+                .generate(file);
 
     }
 

@@ -57,4 +57,17 @@ public class JavaSourceEditor {
 
     }
 
+    public String getClassName() {
+
+        return classEditor()
+                .getClassName();
+
+    }
+
+    public Path getFile() {
+
+        return file;
+
+    }
+
 }
