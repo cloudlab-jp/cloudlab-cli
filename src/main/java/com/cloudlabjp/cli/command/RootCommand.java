@@ -8,7 +8,8 @@ import picocli.CommandLine.Command;
         version = "0.1.0",
         description = "CloudLab CLI",
         subcommands = {
-                ModuleCommand.class
+                ModuleCommand.class,
+                EntityCommand.class
         }
 )
 public class RootCommand implements Runnable {
