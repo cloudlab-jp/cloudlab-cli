@@ -3,6 +3,7 @@ package com.cloudlabjp.cli.generator;
 import com.cloudlabjp.cli.generator.model.GeneratedFile;
 import com.cloudlabjp.cli.model.FieldDefinition;
 import com.cloudlabjp.cli.project.ProjectInfo;
+import com.cloudlabjp.cli.template.ImportResolver;
 import com.cloudlabjp.cli.template.ResourceTemplateEngine;
 import com.cloudlabjp.cli.util.StringUtils;
 
@@ -15,6 +16,9 @@ public class EntityFileFactory {
     private final ResourceTemplateEngine templateEngine =
             new ResourceTemplateEngine();
 
+    private final ImportResolver importResolver =
+            new ImportResolver();
+
     public List<GeneratedFile> create(ProjectInfo project,
                                       String module,
                                       String entity,
@@ -25,6 +29,10 @@ public class EntityFileFactory {
         Map<String, String> variables = new HashMap<>();
 
         variables.put("basePackage", project.basePackage());
+        variables.put(
+                "imports",
+                importResolver.resolve(fields)
+        );
         variables.put("module", module);
         variables.put("className", className);
         variables.put("fields", buildFields(fields));
