@@ -64,7 +64,7 @@ public class EntityGenerator {
                         entityName
                 )
         );
-        
+
         files.addAll(
                 controllerFactory.create(
                         project,
