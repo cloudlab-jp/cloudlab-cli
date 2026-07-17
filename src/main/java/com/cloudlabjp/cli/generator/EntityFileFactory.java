@@ -3,6 +3,7 @@ package com.cloudlabjp.cli.generator;
 import com.cloudlabjp.cli.config.EntityStyle;
 import com.cloudlabjp.cli.config.GeneratorConfiguration;
 import com.cloudlabjp.cli.generator.builder.EntitySourceBuilder;
+import com.cloudlabjp.cli.generator.builder.LombokEntityBuilder;
 import com.cloudlabjp.cli.generator.model.GeneratedFile;
 import com.cloudlabjp.cli.model.FieldDefinition;
 import com.cloudlabjp.cli.project.ProjectInfo;
@@ -25,6 +26,9 @@ public class EntityFileFactory {
     private final EntitySourceBuilder sourceBuilder =
             new EntitySourceBuilder();
 
+    private final LombokEntityBuilder lombokBuilder =
+            new LombokEntityBuilder();
+
     public List<GeneratedFile> create(ProjectInfo project,
                                       String module,
                                       String entity,
@@ -38,11 +42,28 @@ public class EntityFileFactory {
         String className = StringUtils.capitalize(entity);
 
         Map<String, String> variables = new HashMap<>();
+        String imports = importResolver.resolve(fields);
+        switch (configuration.entityStyle()) {
 
+            case PLAIN -> {
+                // No hacer nada
+            }
+
+            case LOMBOK -> {
+
+                if (!imports.isBlank()) {
+                    imports += System.lineSeparator();
+                }
+
+                imports += lombokBuilder.buildImports();
+
+            }
+
+        }
         variables.put("basePackage", project.basePackage());
         variables.put(
                 "imports",
-                importResolver.resolve(fields)
+                imports
         );
         variables.put("module", module);
         variables.put("className", className);
@@ -52,28 +73,57 @@ public class EntityFileFactory {
                 sourceBuilder.buildFields(fields)
         );
 
-        if (configuration.entityStyle() == EntityStyle.PLAIN) {
+        switch (configuration.entityStyle()) {
 
-            variables.put(
-                    "constructor",
-                    sourceBuilder.buildConstructor(className, fields)
-            );
+            case PLAIN -> {
 
-        } else {
+                variables.put("annotations", "");
 
-            variables.put("constructor", "");
+                variables.put(
+                        "constructor",
+                        sourceBuilder.buildConstructor(
+                                className,
+                                fields
+                        )
+                );
+
+                variables.put(
+                        "getters",
+                        sourceBuilder.buildGetters(fields)
+                );
+
+                variables.put(
+                        "setters",
+                        sourceBuilder.buildSetters(fields)
+                );
+
+            }
+
+            case LOMBOK -> {
+
+                variables.put(
+                        "annotations",
+                        lombokBuilder.buildAnnotations()
+                );
+
+                variables.put(
+                        "constructor",
+                        ""
+                );
+
+                variables.put(
+                        "getters",
+                        ""
+                );
+
+                variables.put(
+                        "setters",
+                        ""
+                );
+            }
 
         }
 
-        variables.put(
-                "getters",
-                sourceBuilder.buildGetters(fields)
-        );
-
-        variables.put(
-                "setters",
-                sourceBuilder.buildSetters(fields)
-        );
 
         return List.of(
 

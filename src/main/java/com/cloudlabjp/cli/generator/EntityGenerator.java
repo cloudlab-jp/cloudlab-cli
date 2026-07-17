@@ -1,6 +1,7 @@
 package com.cloudlabjp.cli.generator;
 
 import com.cloudlabjp.cli.generator.model.GeneratedFile;
+import com.cloudlabjp.cli.generator.repository.RepositoryFileFactory;
 import com.cloudlabjp.cli.model.FieldDefinition;
 import com.cloudlabjp.cli.project.ProjectInfo;
 import com.cloudlabjp.cli.util.ConsolePrinter;
@@ -8,12 +9,16 @@ import com.cloudlabjp.cli.util.FileSystemUtils;
 
 import java.io.IOException;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.List;
 
 public class EntityGenerator {
 
     private final EntityFileFactory fileFactory =
             new EntityFileFactory();
+
+    private final RepositoryFileFactory repositoryFactory =
+            new RepositoryFileFactory();
 
     public void generate(ProjectInfo project,
                          String moduleName,
@@ -25,13 +30,24 @@ public class EntityGenerator {
                 .resolve("modules")
                 .resolve(moduleName);
 
-        List<GeneratedFile> files =
+        List<GeneratedFile> files = new ArrayList<>();
+
+        files.addAll(
                 fileFactory.create(
                         project,
                         moduleName,
                         entityName,
                         fields
-                );
+                )
+        );
+
+        files.addAll(
+                repositoryFactory.create(
+                        project,
+                        moduleName,
+                        entityName
+                )
+        );
 
         try {
 
