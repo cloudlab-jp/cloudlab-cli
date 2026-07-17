@@ -1,5 +1,7 @@
 package com.cloudlabjp.cli.generator;
 
+import com.cloudlabjp.cli.config.EntityStyle;
+import com.cloudlabjp.cli.config.GeneratorConfiguration;
 import com.cloudlabjp.cli.generator.builder.EntitySourceBuilder;
 import com.cloudlabjp.cli.generator.model.GeneratedFile;
 import com.cloudlabjp.cli.model.FieldDefinition;
@@ -23,6 +25,9 @@ public class EntityFileFactory {
     private final EntitySourceBuilder sourceBuilder =
             new EntitySourceBuilder();
 
+    private final GeneratorConfiguration configuration =
+            new GeneratorConfiguration();
+
     public List<GeneratedFile> create(ProjectInfo project,
                                       String module,
                                       String entity,
@@ -39,15 +44,24 @@ public class EntityFileFactory {
         );
         variables.put("module", module);
         variables.put("className", className);
+        variables.put("annotations", "");
         variables.put(
                 "fields",
                 sourceBuilder.buildFields(fields)
         );
 
-        variables.put(
-                "constructor",
-                sourceBuilder.buildConstructor(className, fields)
-        );
+        if (configuration.entityStyle() == EntityStyle.PLAIN) {
+
+            variables.put(
+                    "constructor",
+                    sourceBuilder.buildConstructor(className, fields)
+            );
+
+        } else {
+
+            variables.put("constructor", "");
+
+        }
 
         variables.put(
                 "getters",
@@ -58,6 +72,7 @@ public class EntityFileFactory {
                 "setters",
                 sourceBuilder.buildSetters(fields)
         );
+        
         System.out.println("FIELDS:");
         System.out.println(variables.get("fields"));
 
