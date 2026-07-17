@@ -10,7 +10,10 @@ import picocli.CommandLine.Parameters;
 )
 public class EntityCommand implements Runnable {
 
-    @Parameters(index = "0", description = "Entity name")
+    @Parameters(index = "0", description = "Module name")
+    private String moduleName;
+
+    @Parameters(index = "1", description = "Entity name")
     private String entityName;
 
     private final EntityGeneratorService service =
@@ -18,9 +21,7 @@ public class EntityCommand implements Runnable {
 
     @Override
     public void run() {
-
-        service.createEntity(entityName);
-
+        service.createEntity(moduleName, entityName);
     }
 
 }
