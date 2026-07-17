@@ -2,6 +2,7 @@ package com.cloudlabjp.cli.generator;
 
 import com.cloudlabjp.cli.generator.model.GeneratedFile;
 import com.cloudlabjp.cli.generator.repository.RepositoryFileFactory;
+import com.cloudlabjp.cli.generator.service.ServiceFileFactory;
 import com.cloudlabjp.cli.model.FieldDefinition;
 import com.cloudlabjp.cli.project.ProjectInfo;
 import com.cloudlabjp.cli.util.ConsolePrinter;
@@ -19,6 +20,9 @@ public class EntityGenerator {
 
     private final RepositoryFileFactory repositoryFactory =
             new RepositoryFileFactory();
+
+    private final ServiceFileFactory serviceFactory =
+            new ServiceFileFactory();
 
     public void generate(ProjectInfo project,
                          String moduleName,
@@ -43,6 +47,14 @@ public class EntityGenerator {
 
         files.addAll(
                 repositoryFactory.create(
+                        project,
+                        moduleName,
+                        entityName
+                )
+        );
+
+        files.addAll(
+                serviceFactory.create(
                         project,
                         moduleName,
                         entityName

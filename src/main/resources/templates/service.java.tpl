@@ -1,8 +1,13 @@
 package {{basePackage}}.modules.{{module}}.application.service;
 
-import org.springframework.stereotype.Service;
+import {{basePackage}}.modules.{{module}}.domain.repository.{{className}}Repository;
 
-@Service
 public class {{className}}Service {
+
+    private final {{className}}Repository repository;
+
+    public {{className}}Service({{className}}Repository repository) {
+        this.repository = repository;
+    }
 
 }
