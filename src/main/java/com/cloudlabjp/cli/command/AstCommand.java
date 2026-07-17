@@ -1,10 +1,7 @@
 package com.cloudlabjp.cli.command;
 
-import com.cloudlabjp.cli.editor.ClassEditor;
 import com.cloudlabjp.cli.editor.JavaSourceEditor;
-import com.cloudlabjp.cli.model.MethodDefinition;
-import com.cloudlabjp.cli.model.ParameterDefinition;
-import com.github.javaparser.ast.CompilationUnit;
+import com.cloudlabjp.cli.generator.factory.MethodFactory;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
@@ -32,26 +29,7 @@ public class AstCommand implements Runnable {
 
         editor.classEditor()
                 .addMethod(
-
-                        new MethodDefinition(
-
-                                "create",
-
-                                "String",
-
-                                List.of(
-                                        new ParameterDefinition(
-                                                "String",
-                                                "name"
-                                        )
-                                ),
-
-                                """
-                                return "Hello " + name;
-                                """
-
-                        )
-
+                        MethodFactory.emptyMethod("generatedMethod")
                 );
 
         editor.save();
