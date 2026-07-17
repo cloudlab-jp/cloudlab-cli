@@ -1,54 +1,58 @@
 package com.cloudlabjp.cli.generator;
 
+import com.cloudlabjp.cli.generator.model.GeneratedFile;
 import com.cloudlabjp.cli.project.ProjectInfo;
-import com.cloudlabjp.cli.template.ResourceTemplateEngine;
 import com.cloudlabjp.cli.util.ConsolePrinter;
 import com.cloudlabjp.cli.util.FileSystemUtils;
-import com.cloudlabjp.cli.util.StringUtils;
 
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Map;
+import java.util.List;
 
 public class EntityGenerator {
 
-    private final ResourceTemplateEngine templateEngine =
-            new ResourceTemplateEngine();
+    private final EntityFileFactory fileFactory =
+            new EntityFileFactory();
 
     public void generate(ProjectInfo project,
                          String moduleName,
                          String entityName) {
 
-        String className = StringUtils.capitalize(entityName);
-
-        Path file = project.sourceRoot()
+        Path modulePath = project.sourceRoot()
                 .resolve(project.basePackage().replace(".", "/"))
                 .resolve("modules")
-                .resolve(moduleName)
-                .resolve("domain")
-                .resolve("model")
-                .resolve(className + ".java");
+                .resolve(moduleName);
 
-        Map<String, String> variables = Map.of(
-                "basePackage", project.basePackage(),
-                "module", moduleName,
-                "className", className
-        );
+        List<GeneratedFile> files =
+                fileFactory.create(
+                        project,
+                        moduleName,
+                        entityName
+                );
 
         try {
 
-            FileSystemUtils.createDirectory(file.getParent());
+            for (GeneratedFile file : files) {
 
-            FileGenerator.createFile(
-                    file,
-                    templateEngine.render("entity.java.tpl", variables)
-            );
+                Path output = modulePath.resolve(file.relativePath());
 
-            ConsolePrinter.success(file.toString());
+                FileSystemUtils.createDirectory(output.getParent());
+
+                FileGenerator.createFile(
+                        output,
+                        file.content()
+                );
+
+                ConsolePrinter.success(file.relativePath());
+
+            }
 
         } catch (IOException e) {
 
-            throw new RuntimeException(e);
+            throw new RuntimeException(
+                    "Unable to generate entity.",
+                    e
+            );
 
         }
 
