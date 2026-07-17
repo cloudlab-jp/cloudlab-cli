@@ -28,6 +28,12 @@
             <version>${picocli.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.javaparser</groupId>
+            <artifactId>javaparser-core</artifactId>
+            <version>3.27.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>
