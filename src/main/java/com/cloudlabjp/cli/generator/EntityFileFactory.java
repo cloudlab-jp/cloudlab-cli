@@ -25,13 +25,15 @@ public class EntityFileFactory {
     private final EntitySourceBuilder sourceBuilder =
             new EntitySourceBuilder();
 
-    private final GeneratorConfiguration configuration =
-            new GeneratorConfiguration();
-
     public List<GeneratedFile> create(ProjectInfo project,
                                       String module,
                                       String entity,
                                       List<FieldDefinition> fields){
+
+        GeneratorConfiguration configuration =
+                new GeneratorConfiguration(
+                        project.projectRoot()
+                );
 
         String className = StringUtils.capitalize(entity);
 
@@ -72,9 +74,6 @@ public class EntityFileFactory {
                 "setters",
                 sourceBuilder.buildSetters(fields)
         );
-        
-        System.out.println("FIELDS:");
-        System.out.println(variables.get("fields"));
 
         return List.of(
 
