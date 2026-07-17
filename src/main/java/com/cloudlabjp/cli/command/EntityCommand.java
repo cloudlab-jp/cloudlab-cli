@@ -1,11 +1,14 @@
 package com.cloudlabjp.cli.command;
 
+import com.cloudlabjp.cli.model.FieldDefinition;
+import com.cloudlabjp.cli.parser.FieldParser;
 import com.cloudlabjp.cli.service.EntityGeneratorService;
 import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
 
 import java.nio.file.Path;
+import java.util.List;
 
 @Command(
         name = "entity",
@@ -25,16 +28,29 @@ public class EntityCommand implements Runnable {
     )
     private Path project;
 
+    @Option(
+            names = "--fields",
+            split = ",",
+            description = "Entity fields. Example: name:String,price:BigDecimal"
+    )
+    private List<String> fields;
+
     private final EntityGeneratorService service =
             new EntityGeneratorService();
 
     @Override
     public void run() {
 
+        FieldParser parser = new FieldParser();
+
+        List<FieldDefinition> definitions =
+                parser.parse(fields);
+
         service.createEntity(
                 project,
                 moduleName,
-                entityName
+                entityName,
+                definitions
         );
 
     }

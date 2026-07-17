@@ -1,11 +1,13 @@
 package com.cloudlabjp.cli.service;
 
 import com.cloudlabjp.cli.generator.EntityGenerator;
+import com.cloudlabjp.cli.model.FieldDefinition;
 import com.cloudlabjp.cli.project.ProjectDetector;
 import com.cloudlabjp.cli.project.ProjectInfo;
 import com.cloudlabjp.cli.util.ConsolePrinter;
 
 import java.nio.file.Path;
+import java.util.List;
 
 public class EntityGeneratorService {
 
@@ -17,7 +19,8 @@ public class EntityGeneratorService {
 
     public void createEntity(Path projectPath,
                              String moduleName,
-                             String entityName) {
+                             String entityName,
+                             List<FieldDefinition> fields) {
 
         ConsolePrinter.info("");
         ConsolePrinter.info("Creating entity: " + entityName);
@@ -30,7 +33,8 @@ public class EntityGeneratorService {
         generator.generate(
                 project,
                 moduleName,
-                entityName
+                entityName,
+                fields
         );
 
         ConsolePrinter.info("");

@@ -1,6 +1,7 @@
 package com.cloudlabjp.cli.generator;
 
 import com.cloudlabjp.cli.generator.model.GeneratedFile;
+import com.cloudlabjp.cli.model.FieldDefinition;
 import com.cloudlabjp.cli.project.ProjectInfo;
 import com.cloudlabjp.cli.util.ConsolePrinter;
 import com.cloudlabjp.cli.util.FileSystemUtils;
@@ -16,7 +17,8 @@ public class EntityGenerator {
 
     public void generate(ProjectInfo project,
                          String moduleName,
-                         String entityName) {
+                         String entityName,
+                         List<FieldDefinition> fields) {
 
         Path modulePath = project.sourceRoot()
                 .resolve(project.basePackage().replace(".", "/"))
@@ -27,7 +29,8 @@ public class EntityGenerator {
                 fileFactory.create(
                         project,
                         moduleName,
-                        entityName
+                        entityName,
+                        fields
                 );
 
         try {
