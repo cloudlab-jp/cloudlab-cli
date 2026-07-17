@@ -6,4 +6,9 @@ public class {{className}} {
 
 {{fields}}
 
+{{constructor}}
+
+{{getters}}
+
+{{setters}}
 }
