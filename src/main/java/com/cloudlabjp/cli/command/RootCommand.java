@@ -1,6 +1,9 @@
 package com.cloudlabjp.cli.command;
 
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
+
+import java.nio.file.Path;
 
 @Command(
         name = "cloudlab",
@@ -14,12 +17,22 @@ import picocli.CommandLine.Command;
 )
 public class RootCommand implements Runnable {
 
+    @Option(
+            names = {"-p", "--project"},
+            description = "Spring Boot project directory"
+    )
+    private Path project;
+
+    public Path getProject() {
+        return project;
+    }
+
     @Override
     public void run() {
         System.out.println("""
-                
+
                 CloudLab CLI
-                
+
                 Use --help to see available commands.
                 """);
     }

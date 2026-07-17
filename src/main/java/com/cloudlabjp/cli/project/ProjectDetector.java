@@ -27,25 +27,20 @@ public class ProjectDetector {
 
     public ProjectInfo detect(Path projectRoot) {
 
-        Path pom = projectRoot.resolve("pom.xml");
-
-        if (!Files.exists(pom)) {
-            throw new ProjectException(
-                    "pom.xml not found. Current directory is not a Maven project."
-            );
+        if (projectRoot == null) {
+            return detect();
         }
 
-        Path sourceRoot = projectRoot.resolve("src/main/java");
+        Path sourceRoot = projectRoot
+                .resolve("src")
+                .resolve("main")
+                .resolve("java");
 
-        if (!Files.exists(sourceRoot)) {
-            throw new ProjectException(
-                    "src/main/java not found."
-            );
-        }
+        Path applicationClass =
+                applicationFinder.find(sourceRoot);
 
-        Path applicationClass = applicationFinder.find(sourceRoot);
-
-        String basePackage = packageExtractor.extract(applicationClass);
+        String basePackage =
+                packageExtractor.extract(applicationClass);
 
         return new ProjectInfo(
                 projectRoot,

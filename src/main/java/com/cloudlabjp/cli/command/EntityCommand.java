@@ -2,7 +2,10 @@ package com.cloudlabjp.cli.command;
 
 import com.cloudlabjp.cli.service.EntityGeneratorService;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
+
+import java.nio.file.Path;
 
 @Command(
         name = "entity",
@@ -16,12 +19,24 @@ public class EntityCommand implements Runnable {
     @Parameters(index = "1", description = "Entity name")
     private String entityName;
 
+    @Option(
+            names = {"-p", "--project"},
+            description = "Spring Boot project directory"
+    )
+    private Path project;
+
     private final EntityGeneratorService service =
             new EntityGeneratorService();
 
     @Override
     public void run() {
-        service.createEntity(moduleName, entityName);
+
+        service.createEntity(
+                project,
+                moduleName,
+                entityName
+        );
+
     }
 
 }

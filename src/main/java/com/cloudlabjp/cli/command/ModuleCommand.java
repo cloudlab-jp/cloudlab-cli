@@ -2,22 +2,37 @@ package com.cloudlabjp.cli.command;
 
 import com.cloudlabjp.cli.service.GeneratorService;
 import picocli.CommandLine.Command;
+import picocli.CommandLine.Option;
 import picocli.CommandLine.Parameters;
+
+import java.nio.file.Path;
 
 @Command(
         name = "module",
-        description = "Creates a new module"
+        description = "Generate a new module."
 )
 public class ModuleCommand implements Runnable {
 
     @Parameters(index = "0", description = "Module name")
     private String moduleName;
 
-    private final GeneratorService generatorService = new GeneratorService();
+    @Option(
+            names = {"-p", "--project"},
+            description = "Spring Boot project directory"
+    )
+    private Path project;
+
+    private final GeneratorService service =
+            new GeneratorService();
 
     @Override
     public void run() {
-        generatorService.createModule(moduleName);
+
+        service.createModule(
+                project,
+                moduleName
+        );
+
     }
 
 }

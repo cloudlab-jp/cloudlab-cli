@@ -9,20 +9,22 @@ import java.nio.file.Path;
 
 public class GeneratorService {
 
-    private final ProjectDetector detector = new ProjectDetector();
+    private final ProjectDetector detector =
+            new ProjectDetector();
 
-    private final ModuleGenerator moduleGenerator = new ModuleGenerator();
+    private final ModuleGenerator generator =
+            new ModuleGenerator();
 
-    public void createModule(String moduleName) {
-
-        ProjectInfo project = detector.detect(
-                Path.of("../novacommerce/backend") // temporal mientras desarrollamos
-        );
+    public void createModule(Path projectPath,
+                             String moduleName) {
 
         ConsolePrinter.info("");
         ConsolePrinter.info("Creating module: " + moduleName);
 
-        moduleGenerator.generate(project, moduleName);
+        ProjectInfo project =
+                detector.detect(projectPath);
+
+        generator.generate(project, moduleName);
 
         ConsolePrinter.info("");
         ConsolePrinter.success("Done.");
