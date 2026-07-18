@@ -1,5 +1,6 @@
 package com.cloudlabjp.cli.generator.feature;
 
+import com.cloudlabjp.cli.editor.CompilationUnitEditor;
 import com.cloudlabjp.cli.editor.JavaSourceEditor;
 import com.github.javaparser.ast.body.MethodDeclaration;
 
@@ -14,11 +15,14 @@ public abstract class BaseFeatureGenerator {
         JavaSourceEditor editor =
                 new JavaSourceEditor(file);
 
-        if (editor.classEditor().hasMethod(methodName)) {
+        CompilationUnitEditor unit =
+                editor.editor();
+
+        if (unit.clazz().hasMethod(methodName)) {
             return;
         }
 
-        editor.classEditor()
+        unit.clazz()
                 .addMethod(method);
 
         editor.save();

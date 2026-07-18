@@ -1,7 +1,5 @@
 package com.cloudlabjp.cli.editor;
 
-import com.cloudlabjp.cli.editor.converter.MethodDefinitionConverter;
-import com.cloudlabjp.cli.model.MethodDefinition;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 
@@ -13,17 +11,21 @@ public class ClassEditor {
         this.clazz = clazz;
     }
 
-    public void addMethod(MethodDefinition definition) {
-
-        addMethod(
-                MethodDefinitionConverter.convert(definition)
-        );
-
-    }
-
     public void addMethod(MethodDeclaration method) {
 
         clazz.addMember(method);
+
+    }
+
+    public AnnotationEditor annotations() {
+
+        return new AnnotationEditor(clazz);
+
+    }
+
+    public FieldEditor fields() {
+
+        return new FieldEditor(clazz);
 
     }
 
@@ -42,10 +44,9 @@ public class ClassEditor {
 
     }
 
-    public void addImport(String importName) {
+    public EntityEditor entity() {
 
-        clazz.findCompilationUnit()
-                .ifPresent(unit -> unit.addImport(importName));
+        return new EntityEditor(this);
 
     }
 

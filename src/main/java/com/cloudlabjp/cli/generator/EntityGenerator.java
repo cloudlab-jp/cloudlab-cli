@@ -3,12 +3,10 @@ package com.cloudlabjp.cli.generator;
 import com.cloudlabjp.cli.generator.controller.ControllerFileFactory;
 import com.cloudlabjp.cli.generator.feature.MapperFeatureGenerator;
 import com.cloudlabjp.cli.generator.feature.ServiceFeatureGenerator;
-import com.cloudlabjp.cli.generator.feature.create.CreateFeatureGenerator;
-import com.cloudlabjp.cli.generator.feature.delete.DeleteFeatureGenerator;
-import com.cloudlabjp.cli.generator.feature.find.FindAllFeatureGenerator;
-import com.cloudlabjp.cli.generator.feature.find.FindByIdFeatureGenerator;
-import com.cloudlabjp.cli.generator.feature.update.UpdateFeatureGenerator;
 import com.cloudlabjp.cli.generator.model.GeneratedFile;
+import com.cloudlabjp.cli.generator.pipeline.EntityJpaStep;
+import com.cloudlabjp.cli.generator.pipeline.GeneratorPipeline;
+import com.cloudlabjp.cli.generator.pipeline.PipelineFactory;
 import com.cloudlabjp.cli.generator.repository.RepositoryFileFactory;
 import com.cloudlabjp.cli.generator.service.ServiceFileFactory;
 import com.cloudlabjp.cli.model.FieldDefinition;
@@ -40,6 +38,10 @@ public class EntityGenerator {
 
     private final MapperFeatureGenerator mapperFeatureGenerator =
             new MapperFeatureGenerator();
+
+    private final GeneratorPipeline entityPipeline =
+            new GeneratorPipeline()
+                    .add(new EntityJpaStep());
 
     public void generate(ProjectInfo project,
                          String moduleName,
@@ -102,6 +104,13 @@ public class EntityGenerator {
                 ConsolePrinter.success(file.relativePath());
 
             }
+
+            Path entityFile = modulePath.resolve(
+                    "domain/model/" + entityName + ".java"
+            );
+
+            PipelineFactory.entity()
+                    .execute(entityFile);
 
             Path serviceFile = modulePath.resolve(
                     "application/service/" + entityName + "Service.java"

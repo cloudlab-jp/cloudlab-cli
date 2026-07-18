@@ -29,14 +29,9 @@ public class JavaSourceEditor {
 
     }
 
-    public ClassEditor classEditor() {
+    public CompilationUnitEditor editor() {
 
-        var clazz =
-                unit.getPrimaryType()
-                        .orElseThrow()
-                        .asClassOrInterfaceDeclaration();
-
-        return new ClassEditor(clazz);
+        return new CompilationUnitEditor(unit);
 
     }
 
@@ -59,7 +54,10 @@ public class JavaSourceEditor {
 
     public String getClassName() {
 
-        return classEditor()
+        return editor()
+
+                .clazz()
+
                 .getClassName();
 
     }
