@@ -94,4 +94,50 @@ public final class JavaAnnotation {
         return annotation;
 
     }
+
+    public static AnnotationExpr restController() {
+
+        return new MarkerAnnotationExpr("RestController");
+
+    }
+
+    public static AnnotationExpr requestMapping(String path) {
+
+        NormalAnnotationExpr annotation =
+                new NormalAnnotationExpr();
+
+        annotation.setName("RequestMapping");
+
+        annotation.addPair(
+                "value",
+                new StringLiteralExpr(path)
+        );
+
+        return annotation;
+
+    }
+
+    public static AnnotationExpr requestBody() {
+
+        return new MarkerAnnotationExpr("RequestBody");
+
+    }
+
+    public static AnnotationExpr pathVariable() {
+
+        return new MarkerAnnotationExpr("PathVariable");
+
+    }
+
+    public static AnnotationExpr getMapping() {
+
+        return new MarkerAnnotationExpr("GetMapping");
+
+    }
+
+    public static AnnotationExpr postMapping() {
+
+        return new MarkerAnnotationExpr("PostMapping");
+
+    }
 }

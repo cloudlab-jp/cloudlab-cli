@@ -1,7 +1,9 @@
 package com.cloudlabjp.cli.generator;
 
+import com.cloudlabjp.cli.editor.configurer.ControllerConfigurer;
 import com.cloudlabjp.cli.editor.configurer.ServiceConfigurer;
 import com.cloudlabjp.cli.generator.controller.ControllerFileFactory;
+import com.cloudlabjp.cli.generator.feature.ControllerFeatureGenerator;
 import com.cloudlabjp.cli.generator.feature.MapperFeatureGenerator;
 import com.cloudlabjp.cli.generator.feature.ServiceFeatureGenerator;
 import com.cloudlabjp.cli.generator.model.GeneratedFile;
@@ -47,6 +49,12 @@ public class EntityGenerator {
 
     private final ServiceConfigurer serviceConfigurer =
             new ServiceConfigurer();
+
+    private final ControllerConfigurer controllerConfigurer =
+            new ControllerConfigurer();
+
+    private final ControllerFeatureGenerator controllerFeatureGenerator =
+            new ControllerFeatureGenerator();
 
     public void generate(ProjectInfo project,
                          String moduleName,
@@ -157,6 +165,31 @@ public class EntityGenerator {
 
             mapperFeatureGenerator.generate(
                     mapperFile,
+                    entityName
+            );
+
+            Path controllerFile = modulePath.resolve(
+                    "infrastructure/controller/"
+                            + entityName
+                            + "Controller.java"
+            );
+
+
+
+            controllerConfigurer.configure(
+
+                    controllerFile,
+
+                    project.basePackage(),
+
+                    moduleName,
+
+                    entityName
+
+            );
+
+            controllerFeatureGenerator.generate(
+                    controllerFile,
                     entityName
             );
 

@@ -80,4 +80,10 @@ public class ClassEditor {
 
     }
 
+    public ControllerEditor controller() {
+
+        return new ControllerEditor(this);
+
+    }
+
 }
