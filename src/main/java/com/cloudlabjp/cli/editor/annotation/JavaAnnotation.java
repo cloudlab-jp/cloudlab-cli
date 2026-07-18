@@ -1,14 +1,6 @@
 package com.cloudlabjp.cli.editor.annotation;
 
-import com.github.javaparser.ast.NodeList;
-import com.github.javaparser.ast.expr.AnnotationExpr;
-import com.github.javaparser.ast.expr.FieldAccessExpr;
-import com.github.javaparser.ast.expr.MarkerAnnotationExpr;
-import com.github.javaparser.ast.expr.MemberValuePair;
-import com.github.javaparser.ast.expr.NameExpr;
-import com.github.javaparser.ast.expr.NormalAnnotationExpr;
-import com.github.javaparser.ast.expr.StringLiteralExpr;
-import com.github.javaparser.ast.expr.Name;
+import com.github.javaparser.ast.expr.*;
 
 public final class JavaAnnotation {
 
@@ -51,60 +43,55 @@ public final class JavaAnnotation {
 
     }
 
+    public static AnnotationExpr requiredArgsConstructor() {
+
+        return new MarkerAnnotationExpr("RequiredArgsConstructor");
+
+    }
+
+    public static AnnotationExpr service() {
+
+        return new MarkerAnnotationExpr("Service");
+
+    }
+
+    public static AnnotationExpr table(String tableName) {
+
+        NormalAnnotationExpr annotation =
+                new NormalAnnotationExpr();
+
+        annotation.setName("Table");
+
+        annotation.addPair(
+                "name",
+                new StringLiteralExpr(tableName)
+        );
+
+        return annotation;
+
+    }
+
     public static AnnotationExpr id() {
 
         return new MarkerAnnotationExpr("Id");
 
     }
-
-    public static AnnotationExpr table(String table) {
-
-        return new NormalAnnotationExpr(
-
-                new Name("Table"),
-
-                NodeList.nodeList(
-
-                        new MemberValuePair(
-
-                                "name",
-
-                                new StringLiteralExpr(table)
-
-                        )
-
-                )
-
-        );
-
-    }
-
     public static AnnotationExpr generatedValueIdentity() {
 
-        return new NormalAnnotationExpr(
+        NormalAnnotationExpr annotation =
+                new NormalAnnotationExpr();
 
-                new Name("GeneratedValue"),
+        annotation.setName("GeneratedValue");
 
-                NodeList.nodeList(
-
-                        new MemberValuePair(
-
-                                "strategy",
-
-                                new FieldAccessExpr(
-
-                                        new NameExpr("GenerationType"),
-
-                                        "IDENTITY"
-
-                                )
-
-                        )
-
+        annotation.addPair(
+                "strategy",
+                new FieldAccessExpr(
+                        new NameExpr("GenerationType"),
+                        "IDENTITY"
                 )
-
         );
 
-    }
+        return annotation;
 
+    }
 }

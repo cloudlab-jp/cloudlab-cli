@@ -1,8 +1,8 @@
-package com.cloudlabjp.cli.editor.configurer;
+package com.cloudlabjp.cli.editor.configurer.imports;
 
 import com.cloudlabjp.cli.editor.CompilationUnitEditor;
 
-public class ImportsConfigurer {
+public class EntityImportsConfigurer {
 
     public void configure(CompilationUnitEditor unit) {
 

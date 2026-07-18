@@ -74,4 +74,10 @@ public class ClassEditor {
 
     }
 
+    public ServiceEditor service() {
+
+        return new ServiceEditor(this);
+
+    }
+
 }

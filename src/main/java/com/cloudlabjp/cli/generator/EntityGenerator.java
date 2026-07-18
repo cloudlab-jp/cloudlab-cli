@@ -1,5 +1,6 @@
 package com.cloudlabjp.cli.generator;
 
+import com.cloudlabjp.cli.editor.configurer.ServiceConfigurer;
 import com.cloudlabjp.cli.generator.controller.ControllerFileFactory;
 import com.cloudlabjp.cli.generator.feature.MapperFeatureGenerator;
 import com.cloudlabjp.cli.generator.feature.ServiceFeatureGenerator;
@@ -43,6 +44,9 @@ public class EntityGenerator {
     private final GeneratorPipeline entityPipeline =
             new GeneratorPipeline()
                     .add(new EntityJpaStep());
+
+    private final ServiceConfigurer serviceConfigurer =
+            new ServiceConfigurer();
 
     public void generate(ProjectInfo project,
                          String moduleName,
@@ -128,6 +132,10 @@ public class EntityGenerator {
 
             Path serviceFile = modulePath.resolve(
                     "application/service/" + entityName + "Service.java"
+            );
+
+            serviceConfigurer.configure(
+                    serviceFile
             );
 
             serviceFeatureGenerator.generate(
