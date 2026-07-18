@@ -1,10 +1,13 @@
 package com.cloudlabjp.cli.generator.factory.method;
 
 import com.cloudlabjp.cli.builder.MethodDefinitionBuilder;
-import com.cloudlabjp.cli.generator.factory.ServiceBodyFactory;
+import com.cloudlabjp.cli.generator.body.update.UpdateBodyGenerator;
 import com.cloudlabjp.cli.model.MethodDefinition;
 
 public final class UpdateMethodFactory {
+
+    private static final UpdateBodyGenerator bodyGenerator =
+            new UpdateBodyGenerator();
 
     private UpdateMethodFactory() {
     }
@@ -25,7 +28,7 @@ public final class UpdateMethodFactory {
                 )
 
                 .body(
-                        ServiceBodyFactory.updateBody()
+                        bodyGenerator.generate()
                 )
 
                 .build();

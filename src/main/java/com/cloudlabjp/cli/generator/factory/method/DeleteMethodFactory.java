@@ -1,10 +1,13 @@
 package com.cloudlabjp.cli.generator.factory.method;
 
 import com.cloudlabjp.cli.builder.MethodDefinitionBuilder;
-import com.cloudlabjp.cli.generator.factory.ServiceBodyFactory;
+import com.cloudlabjp.cli.generator.body.delete.DeleteBodyGenerator;
 import com.cloudlabjp.cli.model.MethodDefinition;
 
 public final class DeleteMethodFactory {
+
+    private static final DeleteBodyGenerator bodyGenerator =
+            new DeleteBodyGenerator();
 
     private DeleteMethodFactory() {
     }
@@ -20,7 +23,7 @@ public final class DeleteMethodFactory {
                 .parameter("Long", "id")
 
                 .body(
-                        ServiceBodyFactory.deleteBody()
+                        bodyGenerator.generate()
                 )
 
                 .build();

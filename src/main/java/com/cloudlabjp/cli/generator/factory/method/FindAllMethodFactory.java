@@ -1,10 +1,13 @@
 package com.cloudlabjp.cli.generator.factory.method;
 
 import com.cloudlabjp.cli.builder.MethodDefinitionBuilder;
-import com.cloudlabjp.cli.generator.factory.ServiceBodyFactory;
+import com.cloudlabjp.cli.generator.body.find.FindAllBodyGenerator;
 import com.cloudlabjp.cli.model.MethodDefinition;
 
 public final class FindAllMethodFactory {
+
+    private static final FindAllBodyGenerator bodyGenerator =
+            new FindAllBodyGenerator();
 
     private FindAllMethodFactory() {
     }
@@ -18,7 +21,7 @@ public final class FindAllMethodFactory {
                 .returnType("List<" + entityName + "Response>")
 
                 .body(
-                        ServiceBodyFactory.findAllBody()
+                        bodyGenerator.generate()
                 )
 
                 .build();

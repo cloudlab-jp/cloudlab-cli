@@ -6,51 +6,28 @@ import com.cloudlabjp.cli.generator.feature.find.FindAllFeatureGenerator;
 import com.cloudlabjp.cli.generator.feature.find.FindByIdFeatureGenerator;
 import com.cloudlabjp.cli.generator.feature.update.UpdateFeatureGenerator;
 
-import java.nio.file.Path;
+import java.util.List;
 
-public class ServiceFeatureGenerator {
+public class ServiceFeatureGenerator extends CompositeFeatureGenerator {
 
-    private final CreateFeatureGenerator createGenerator =
-            new CreateFeatureGenerator();
+    public ServiceFeatureGenerator() {
 
-    private final UpdateFeatureGenerator updateGenerator =
-            new UpdateFeatureGenerator();
+        super(
 
-    private final DeleteFeatureGenerator deleteGenerator =
-            new DeleteFeatureGenerator();
+                List.of(
 
-    private final FindByIdFeatureGenerator findByIdGenerator =
-            new FindByIdFeatureGenerator();
+                        new CreateFeatureGenerator(),
 
-    private final FindAllFeatureGenerator findAllGenerator =
-            new FindAllFeatureGenerator();
+                        new UpdateFeatureGenerator(),
 
-    public void generate(Path serviceFile,
-                         String entityName) {
+                        new DeleteFeatureGenerator(),
 
-        createGenerator.generate(
-                serviceFile,
-                entityName
-        );
+                        new FindByIdFeatureGenerator(),
 
-        updateGenerator.generate(
-                serviceFile,
-                entityName
-        );
+                        new FindAllFeatureGenerator()
 
-        deleteGenerator.generate(
-                serviceFile,
-                entityName
-        );
+                )
 
-        findByIdGenerator.generate(
-                serviceFile,
-                entityName
-        );
-
-        findAllGenerator.generate(
-                serviceFile,
-                entityName
         );
 
     }

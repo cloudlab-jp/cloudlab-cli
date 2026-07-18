@@ -1,6 +1,7 @@
 package com.cloudlabjp.cli.generator;
 
 import com.cloudlabjp.cli.generator.controller.ControllerFileFactory;
+import com.cloudlabjp.cli.generator.feature.MapperFeatureGenerator;
 import com.cloudlabjp.cli.generator.feature.ServiceFeatureGenerator;
 import com.cloudlabjp.cli.generator.feature.create.CreateFeatureGenerator;
 import com.cloudlabjp.cli.generator.feature.delete.DeleteFeatureGenerator;
@@ -36,6 +37,9 @@ public class EntityGenerator {
 
     private final ServiceFeatureGenerator serviceFeatureGenerator =
             new ServiceFeatureGenerator();
+
+    private final MapperFeatureGenerator mapperFeatureGenerator =
+            new MapperFeatureGenerator();
 
     public void generate(ProjectInfo project,
                          String moduleName,
@@ -105,6 +109,15 @@ public class EntityGenerator {
 
             serviceFeatureGenerator.generate(
                     serviceFile,
+                    entityName
+            );
+
+            Path mapperFile = modulePath.resolve(
+                    "application/mapper/" + entityName + "Mapper.java"
+            );
+
+            mapperFeatureGenerator.generate(
+                    mapperFile,
                     entityName
             );
 

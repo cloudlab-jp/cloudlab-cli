@@ -1,10 +1,13 @@
 package com.cloudlabjp.cli.generator.factory.method;
 
 import com.cloudlabjp.cli.builder.MethodDefinitionBuilder;
-import com.cloudlabjp.cli.generator.factory.ServiceBodyFactory;
+import com.cloudlabjp.cli.generator.body.find.FindByIdBodyGenerator;
 import com.cloudlabjp.cli.model.MethodDefinition;
 
 public final class FindByIdMethodFactory {
+
+    private static final FindByIdBodyGenerator bodyGenerator =
+            new FindByIdBodyGenerator();
 
     private FindByIdMethodFactory() {
     }
@@ -20,7 +23,7 @@ public final class FindByIdMethodFactory {
                 .parameter("Long", "id")
 
                 .body(
-                        ServiceBodyFactory.findByIdBody()
+                        bodyGenerator.generate()
                 )
 
                 .build();
