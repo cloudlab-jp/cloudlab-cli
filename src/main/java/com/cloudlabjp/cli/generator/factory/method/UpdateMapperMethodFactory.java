@@ -1,15 +1,15 @@
 package com.cloudlabjp.cli.generator.factory.method;
 
 import com.cloudlabjp.cli.ast.method.MethodAstBuilder;
-import com.cloudlabjp.cli.generator.body.update.UpdateBodyGenerator;
+import com.cloudlabjp.cli.generator.body.mapper.UpdateMapperBodyGenerator;
 import com.github.javaparser.ast.body.MethodDeclaration;
 
-public final class UpdateMethodFactory {
+public final class UpdateMapperMethodFactory {
 
-    private static final UpdateBodyGenerator bodyGenerator =
-            new UpdateBodyGenerator();
+    private static final UpdateMapperBodyGenerator bodyGenerator =
+            new UpdateMapperBodyGenerator();
 
-    private UpdateMethodFactory() {
+    private UpdateMapperMethodFactory() {
     }
 
     public static MethodDeclaration build(String entityName) {
@@ -20,11 +20,11 @@ public final class UpdateMethodFactory {
 
                 .name("update")
 
-                .returnType(entityName + "Response")
+                .returnType("void")
 
                 .parameter(
-                        "Long",
-                        "id"
+                        entityName,
+                        "entity"
                 )
 
                 .parameter(
@@ -33,7 +33,7 @@ public final class UpdateMethodFactory {
                 )
 
                 .body(
-                        bodyGenerator.generate(entityName)
+                        bodyGenerator.generate()
                 )
 
                 .build();

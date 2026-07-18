@@ -26,6 +26,18 @@ public class ServiceConfigurer {
 
         unit.imports()
 
+                .add("java.util.List")
+
+                .add("org.springframework.stereotype.Service")
+
+                .add("lombok.RequiredArgsConstructor")
+
+                .add(basePackage
+                        + ".modules."
+                        + moduleName
+                        + ".domain.model."
+                        + entityName)
+
                 .add(basePackage
                         + ".modules."
                         + moduleName
@@ -38,7 +50,28 @@ public class ServiceConfigurer {
                         + moduleName
                         + ".application.mapper."
                         + entityName
-                        + "Mapper");
+                        + "Mapper")
+
+                .add(basePackage
+                        + ".modules."
+                        + moduleName
+                        + ".application.dto.Create"
+                        + entityName
+                        + "Request")
+
+                .add(basePackage
+                        + ".modules."
+                        + moduleName
+                        + ".application.dto.Update"
+                        + entityName
+                        + "Request")
+
+                .add(basePackage
+                        + ".modules."
+                        + moduleName
+                        + ".application.dto."
+                        + entityName
+                        + "Response");
 
         unit.clazz()
 

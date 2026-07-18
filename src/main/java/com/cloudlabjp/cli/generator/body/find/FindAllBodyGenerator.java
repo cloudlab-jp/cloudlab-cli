@@ -5,7 +5,13 @@ public class FindAllBodyGenerator {
     public String generate() {
 
         return """
-                return List.of();
+                return repository.findAll()
+
+                        .stream()
+
+                        .map(mapper::toResponse)
+
+                        .toList();
                 """;
 
     }

@@ -28,7 +28,7 @@ public final class FindByIdMethodFactory {
                 )
 
                 .body(
-                        bodyGenerator.generate()
+                        bodyGenerator.generate(entityName)
                 )
 
                 .build();

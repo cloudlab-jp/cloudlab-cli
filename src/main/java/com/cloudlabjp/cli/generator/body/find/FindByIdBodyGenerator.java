@@ -2,11 +2,14 @@ package com.cloudlabjp.cli.generator.body.find;
 
 public class FindByIdBodyGenerator {
 
-    public String generate() {
+    public String generate(String entityName) {
 
         return """
-                return null;
-                """;
+                %s entity = repository.findById(id)
+                        .orElseThrow();
+
+                return mapper.toResponse(entity);
+                """.formatted(entityName);
 
     }
 
