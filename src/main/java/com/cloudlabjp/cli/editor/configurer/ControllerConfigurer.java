@@ -32,6 +32,16 @@ public class ControllerConfigurer {
 
                 .add("lombok.RequiredArgsConstructor")
 
+                .add("org.springframework.web.bind.annotation.GetMapping")
+
+                .add("org.springframework.web.bind.annotation.PutMapping")
+
+                .add("org.springframework.web.bind.annotation.DeleteMapping")
+
+                .add("org.springframework.web.bind.annotation.PathVariable")
+
+                .add("java.util.List")
+
                 .add(basePackage
                         + ".modules."
                         + moduleName
@@ -43,6 +53,13 @@ public class ControllerConfigurer {
                         + ".modules."
                         + moduleName
                         + ".application.dto.Create"
+                        + entityName
+                        + "Request")
+
+                .add(basePackage
+                        + ".modules."
+                        + moduleName
+                        + ".application.dto.Update"
                         + entityName
                         + "Request")
 

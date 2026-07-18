@@ -140,4 +140,54 @@ public final class JavaAnnotation {
         return new MarkerAnnotationExpr("PostMapping");
 
     }
+
+    public static AnnotationExpr getMapping(String path) {
+
+        NormalAnnotationExpr annotation =
+                new NormalAnnotationExpr();
+
+        annotation.setName("GetMapping");
+
+        annotation.addPair(
+                "value",
+                new StringLiteralExpr(path)
+        );
+
+        return annotation;
+
+    }
+
+    public static AnnotationExpr putMapping(String path) {
+
+        NormalAnnotationExpr annotation =
+                new NormalAnnotationExpr();
+
+        annotation.setName("PutMapping");
+
+        annotation.addPair(
+                "value",
+                new StringLiteralExpr(path)
+        );
+
+        return annotation;
+
+    }
+
+    public static AnnotationExpr deleteMapping(String path) {
+
+        NormalAnnotationExpr annotation =
+                new NormalAnnotationExpr();
+
+        annotation.setName("DeleteMapping");
+
+        annotation.addPair(
+                "value",
+                new StringLiteralExpr(path)
+        );
+
+        return annotation;
+
+    }
+
+
 }
