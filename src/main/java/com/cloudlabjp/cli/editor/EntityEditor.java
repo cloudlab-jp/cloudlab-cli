@@ -1,6 +1,7 @@
 package com.cloudlabjp.cli.editor;
 
 import com.cloudlabjp.cli.editor.annotation.JavaAnnotation;
+import com.cloudlabjp.cli.generator.factory.field.IdFieldFactory;
 
 public class EntityEditor {
 
@@ -30,12 +31,8 @@ public class EntityEditor {
 
         editor.fields()
 
-                .add("Long", "id")
-
-                .annotate(JavaAnnotation.id())
-
-                .annotate(
-                        JavaAnnotation.generatedValueIdentity()
+                .add(
+                        IdFieldFactory.build()
                 );
 
     }

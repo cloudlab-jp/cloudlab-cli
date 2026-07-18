@@ -11,16 +11,36 @@ public class FieldEditor {
         this.clazz = clazz;
     }
 
-    public EditableField add(String type,
-                             String name) {
+    public EditableField add(FieldDeclaration field) {
 
-        FieldDeclaration field =
-                clazz.addField(
-                        type,
-                        name
-                );
+        String fieldName = field.getVariable(0).getNameAsString();
 
-        field.setPrivate(true);
+        boolean exists = clazz.getFields()
+
+                .stream()
+
+                .flatMap(f -> f.getVariables().stream())
+
+                .anyMatch(variable ->
+                        variable.getNameAsString().equals(fieldName));
+
+        if (exists) {
+
+            FieldDeclaration existing = clazz.getFields()
+
+                    .stream()
+
+                    .filter(f -> f.getVariable(0).getNameAsString().equals(fieldName))
+
+                    .findFirst()
+
+                    .orElseThrow();
+
+            return new EditableField(existing);
+
+        }
+
+        clazz.addMember(field);
 
         return new EditableField(field);
 

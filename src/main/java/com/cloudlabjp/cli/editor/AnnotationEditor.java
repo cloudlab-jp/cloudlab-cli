@@ -13,7 +13,19 @@ public class AnnotationEditor {
 
     public AnnotationEditor add(AnnotationExpr annotation) {
 
-        clazz.addAnnotation(annotation);
+        boolean exists = clazz.getAnnotations()
+
+                .stream()
+
+                .anyMatch(a ->
+                        a.getNameAsString()
+                                .equals(annotation.getNameAsString()));
+
+        if (!exists) {
+
+            clazz.addAnnotation(annotation);
+
+        }
 
         return this;
 

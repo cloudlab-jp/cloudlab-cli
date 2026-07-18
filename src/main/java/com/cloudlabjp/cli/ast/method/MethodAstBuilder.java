@@ -1,10 +1,11 @@
 package com.cloudlabjp.cli.ast.method;
 
+import com.cloudlabjp.cli.ast.builder.AstBuilder;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.body.MethodDeclaration;
 import com.github.javaparser.ast.stmt.BlockStmt;
 
-public class MethodAstBuilder {
+public class MethodAstBuilder implements AstBuilder<MethodDeclaration> {
 
     private final MethodDeclaration method =
             new MethodDeclaration();

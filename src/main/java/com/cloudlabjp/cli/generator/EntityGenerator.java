@@ -5,6 +5,7 @@ import com.cloudlabjp.cli.generator.feature.MapperFeatureGenerator;
 import com.cloudlabjp.cli.generator.feature.ServiceFeatureGenerator;
 import com.cloudlabjp.cli.generator.model.GeneratedFile;
 import com.cloudlabjp.cli.generator.pipeline.EntityJpaStep;
+import com.cloudlabjp.cli.generator.pipeline.GenerationContext;
 import com.cloudlabjp.cli.generator.pipeline.GeneratorPipeline;
 import com.cloudlabjp.cli.generator.pipeline.PipelineFactory;
 import com.cloudlabjp.cli.generator.repository.RepositoryFileFactory;
@@ -110,7 +111,20 @@ public class EntityGenerator {
             );
 
             PipelineFactory.entity()
-                    .execute(entityFile);
+
+                    .execute(
+
+                            new GenerationContext(
+
+                                    entityFile,
+
+                                    entityName,
+
+                                    fields
+
+                            )
+
+                    );
 
             Path serviceFile = modulePath.resolve(
                     "application/service/" + entityName + "Service.java"

@@ -17,11 +17,11 @@ public class GeneratorPipeline {
 
     }
 
-    public void execute(Path file) {
+    public void execute(GenerationContext context) {
 
         for (GeneratorStep step : steps) {
 
-            step.execute(file);
+            step.execute(context);
 
         }
 

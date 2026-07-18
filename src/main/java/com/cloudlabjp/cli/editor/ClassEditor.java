@@ -50,4 +50,28 @@ public class ClassEditor {
 
     }
 
+    public boolean hasField(String name) {
+
+        return clazz.getFields()
+
+                .stream()
+
+                .flatMap(field -> field.getVariables().stream())
+
+                .anyMatch(variable ->
+                        variable.getNameAsString().equals(name));
+
+    }
+
+    public boolean hasAnnotation(String annotation) {
+
+        return clazz.getAnnotations()
+
+                .stream()
+
+                .anyMatch(a ->
+                        a.getNameAsString().equals(annotation));
+
+    }
+
 }
