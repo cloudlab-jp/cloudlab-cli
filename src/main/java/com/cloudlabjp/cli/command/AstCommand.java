@@ -5,7 +5,6 @@ import picocli.CommandLine.Command;
 import picocli.CommandLine.Option;
 
 import java.nio.file.Path;
-import java.util.List;
 
 @Command(
         name = "ast",
@@ -24,10 +23,11 @@ public class AstCommand implements Runnable {
     public void run() {
 
         new CreateFeatureGenerator()
-                .generate(file);
+                .generate(
+                        file,
+                        "Demo"
+                );
 
     }
-
-
 
 }
