@@ -46,4 +46,17 @@ public class FieldEditor {
 
     }
 
+    public boolean hasField(String name) {
+
+        return clazz.getFields()
+
+                .stream()
+
+                .flatMap(field -> field.getVariables().stream())
+
+                .anyMatch(variable ->
+                        variable.getNameAsString().equals(name));
+
+    }
+
 }

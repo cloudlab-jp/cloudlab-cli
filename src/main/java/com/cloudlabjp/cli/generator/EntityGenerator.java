@@ -135,7 +135,15 @@ public class EntityGenerator {
             );
 
             serviceConfigurer.configure(
-                    serviceFile
+
+                    serviceFile,
+
+                    project.basePackage(),
+
+                    moduleName,
+
+                    entityName
+
             );
 
             serviceFeatureGenerator.generate(
