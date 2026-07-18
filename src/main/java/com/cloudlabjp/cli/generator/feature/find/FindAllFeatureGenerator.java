@@ -8,6 +8,7 @@ import java.nio.file.Path;
 
 public class FindAllFeatureGenerator extends BaseFeatureGenerator implements FeatureGenerator {
 
+    @Override
     public void generate(Path serviceFile,
                          String entityName) {
 

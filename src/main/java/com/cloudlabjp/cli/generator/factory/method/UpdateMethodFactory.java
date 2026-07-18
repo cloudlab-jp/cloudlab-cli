@@ -1,8 +1,8 @@
 package com.cloudlabjp.cli.generator.factory.method;
 
-import com.cloudlabjp.cli.builder.MethodDefinitionBuilder;
+import com.cloudlabjp.cli.ast.method.MethodAstBuilder;
 import com.cloudlabjp.cli.generator.body.update.UpdateBodyGenerator;
-import com.cloudlabjp.cli.model.MethodDefinition;
+import com.github.javaparser.ast.body.MethodDeclaration;
 
 public final class UpdateMethodFactory {
 
@@ -12,15 +12,20 @@ public final class UpdateMethodFactory {
     private UpdateMethodFactory() {
     }
 
-    public static MethodDefinition build(String entityName) {
+    public static MethodDeclaration build(String entityName) {
 
-        return new MethodDefinitionBuilder()
+        return new MethodAstBuilder()
+
+                .publicMethod()
 
                 .name("update")
 
                 .returnType(entityName + "Response")
 
-                .parameter("Long", "id")
+                .parameter(
+                        "Long",
+                        "id"
+                )
 
                 .parameter(
                         "Update" + entityName + "Request",

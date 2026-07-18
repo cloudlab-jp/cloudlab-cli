@@ -1,16 +1,18 @@
 package com.cloudlabjp.cli.generator.factory.method;
 
-import com.cloudlabjp.cli.builder.MethodDefinitionBuilder;
-import com.cloudlabjp.cli.model.MethodDefinition;
+import com.cloudlabjp.cli.ast.method.MethodAstBuilder;
+import com.github.javaparser.ast.body.MethodDeclaration;
 
 public final class MapperMethodFactory {
 
     private MapperMethodFactory() {
     }
 
-    public static MethodDefinition toEntity(String entity) {
+    public static MethodDeclaration toEntity(String entity) {
 
-        return new MethodDefinitionBuilder()
+        return new MethodAstBuilder()
+
+                .publicMethod()
 
                 .name("toEntity")
 
@@ -29,9 +31,11 @@ public final class MapperMethodFactory {
 
     }
 
-    public static MethodDefinition toResponse(String entity) {
+    public static MethodDeclaration toResponse(String entity) {
 
-        return new MethodDefinitionBuilder()
+        return new MethodAstBuilder()
+
+                .publicMethod()
 
                 .name("toResponse")
 

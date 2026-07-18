@@ -1,8 +1,8 @@
 package com.cloudlabjp.cli.generator.factory.method;
 
-import com.cloudlabjp.cli.builder.MethodDefinitionBuilder;
+import com.cloudlabjp.cli.ast.method.MethodAstBuilder;
 import com.cloudlabjp.cli.generator.body.delete.DeleteBodyGenerator;
-import com.cloudlabjp.cli.model.MethodDefinition;
+import com.github.javaparser.ast.body.MethodDeclaration;
 
 public final class DeleteMethodFactory {
 
@@ -12,15 +12,20 @@ public final class DeleteMethodFactory {
     private DeleteMethodFactory() {
     }
 
-    public static MethodDefinition build() {
+    public static MethodDeclaration build(String entityName) {
 
-        return new MethodDefinitionBuilder()
+        return new MethodAstBuilder()
+
+                .publicMethod()
 
                 .name("delete")
 
                 .returnType("void")
 
-                .parameter("Long", "id")
+                .parameter(
+                        "Long",
+                        "id"
+                )
 
                 .body(
                         bodyGenerator.generate()

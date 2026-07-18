@@ -1,8 +1,8 @@
 package com.cloudlabjp.cli.generator.factory.method;
 
-import com.cloudlabjp.cli.builder.MethodDefinitionBuilder;
+import com.cloudlabjp.cli.ast.method.MethodAstBuilder;
 import com.cloudlabjp.cli.generator.body.find.FindByIdBodyGenerator;
-import com.cloudlabjp.cli.model.MethodDefinition;
+import com.github.javaparser.ast.body.MethodDeclaration;
 
 public final class FindByIdMethodFactory {
 
@@ -12,15 +12,20 @@ public final class FindByIdMethodFactory {
     private FindByIdMethodFactory() {
     }
 
-    public static MethodDefinition build(String entityName) {
+    public static MethodDeclaration build(String entityName) {
 
-        return new MethodDefinitionBuilder()
+        return new MethodAstBuilder()
+
+                .publicMethod()
 
                 .name("findById")
 
                 .returnType(entityName + "Response")
 
-                .parameter("Long", "id")
+                .parameter(
+                        "Long",
+                        "id"
+                )
 
                 .body(
                         bodyGenerator.generate()

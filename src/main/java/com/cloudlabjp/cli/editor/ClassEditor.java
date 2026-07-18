@@ -1,9 +1,9 @@
 package com.cloudlabjp.cli.editor;
 
+import com.cloudlabjp.cli.editor.converter.MethodDefinitionConverter;
 import com.cloudlabjp.cli.model.MethodDefinition;
-import com.cloudlabjp.cli.model.ParameterDefinition;
-import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
+import com.github.javaparser.ast.body.MethodDeclaration;
 
 public class ClassEditor {
 
@@ -15,28 +15,15 @@ public class ClassEditor {
 
     public void addMethod(MethodDefinition definition) {
 
-        var method = clazz.addMethod(definition.name());
-
-        method.setPublic(true);
-
-        method.setType(definition.returnType());
-
-        for (ParameterDefinition parameter : definition.parameters()) {
-
-            method.addParameter(
-                    parameter.type(),
-                    parameter.name()
-            );
-
-        }
-
-        method.setBody(
-                StaticJavaParser.parseBlock(
-                        "{\n" +
-                                definition.body() +
-                                "\n}"
-                )
+        addMethod(
+                MethodDefinitionConverter.convert(definition)
         );
+
+    }
+
+    public void addMethod(MethodDeclaration method) {
+
+        clazz.addMember(method);
 
     }
 

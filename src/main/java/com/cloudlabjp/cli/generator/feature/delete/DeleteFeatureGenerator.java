@@ -6,15 +6,18 @@ import com.cloudlabjp.cli.generator.feature.FeatureGenerator;
 
 import java.nio.file.Path;
 
-public class DeleteFeatureGenerator extends BaseFeatureGenerator implements FeatureGenerator {
+public class DeleteFeatureGenerator
+        extends BaseFeatureGenerator
+        implements FeatureGenerator {
 
+    @Override
     public void generate(Path serviceFile,
                          String entityName) {
 
         addMethod(
                 serviceFile,
                 "delete",
-                DeleteMethodFactory.build()
+                DeleteMethodFactory.build(entityName)
         );
 
     }

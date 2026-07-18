@@ -6,8 +6,11 @@ import com.cloudlabjp.cli.generator.feature.FeatureGenerator;
 
 import java.nio.file.Path;
 
-public class CreateFeatureGenerator extends BaseFeatureGenerator implements FeatureGenerator {
+public class CreateFeatureGenerator
+        extends BaseFeatureGenerator
+        implements FeatureGenerator {
 
+    @Override
     public void generate(Path serviceFile,
                          String entityName) {
 

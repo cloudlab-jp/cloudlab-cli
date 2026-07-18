@@ -1,8 +1,8 @@
 package com.cloudlabjp.cli.generator.factory.method;
 
-import com.cloudlabjp.cli.builder.MethodDefinitionBuilder;
+import com.cloudlabjp.cli.ast.method.MethodAstBuilder;
 import com.cloudlabjp.cli.generator.body.create.CreateBodyGenerator;
-import com.cloudlabjp.cli.model.MethodDefinition;
+import com.github.javaparser.ast.body.MethodDeclaration;
 
 public final class CreateMethodFactory {
 
@@ -12,9 +12,11 @@ public final class CreateMethodFactory {
     private CreateMethodFactory() {
     }
 
-    public static MethodDefinition build(String entityName) {
+    public static MethodDeclaration build(String entityName) {
 
-        return new MethodDefinitionBuilder()
+        return new MethodAstBuilder()
+
+                .publicMethod()
 
                 .name("create")
 

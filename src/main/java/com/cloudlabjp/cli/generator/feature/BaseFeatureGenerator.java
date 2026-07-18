@@ -1,7 +1,7 @@
 package com.cloudlabjp.cli.generator.feature;
 
 import com.cloudlabjp.cli.editor.JavaSourceEditor;
-import com.cloudlabjp.cli.model.MethodDefinition;
+import com.github.javaparser.ast.body.MethodDeclaration;
 
 import java.nio.file.Path;
 
@@ -9,7 +9,7 @@ public abstract class BaseFeatureGenerator {
 
     protected void addMethod(Path file,
                              String methodName,
-                             MethodDefinition definition) {
+                             MethodDeclaration method) {
 
         JavaSourceEditor editor =
                 new JavaSourceEditor(file);
@@ -19,7 +19,7 @@ public abstract class BaseFeatureGenerator {
         }
 
         editor.classEditor()
-                .addMethod(definition);
+                .addMethod(method);
 
         editor.save();
 
