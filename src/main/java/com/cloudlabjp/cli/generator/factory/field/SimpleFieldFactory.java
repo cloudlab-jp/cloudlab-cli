@@ -1,10 +1,14 @@
 package com.cloudlabjp.cli.generator.factory.field;
 
 import com.cloudlabjp.cli.ast.field.FieldAstBuilder;
+import com.cloudlabjp.cli.generator.configurer.FieldValidationConfigurer;
 import com.cloudlabjp.cli.model.FieldDefinition;
 import com.github.javaparser.ast.body.FieldDeclaration;
 
 public final class SimpleFieldFactory {
+
+    private static final FieldValidationConfigurer validation =
+            new FieldValidationConfigurer();
 
     private SimpleFieldFactory() {
     }
@@ -13,15 +17,24 @@ public final class SimpleFieldFactory {
             FieldDefinition field
     ) {
 
-        return new FieldAstBuilder()
+        FieldDeclaration declaration =
 
-                .privateField()
+                new FieldAstBuilder()
 
-                .type(field.type())
+                        .privateField()
 
-                .name(field.name())
+                        .type(field.type())
 
-                .build();
+                        .name(field.name())
+
+                        .build();
+
+        validation.configure(
+                declaration,
+                field
+        );
+
+        return declaration;
 
     }
 

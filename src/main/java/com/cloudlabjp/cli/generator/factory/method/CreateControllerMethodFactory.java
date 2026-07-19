@@ -3,6 +3,8 @@ package com.cloudlabjp.cli.generator.factory.method;
 import com.cloudlabjp.cli.ast.method.MethodAstBuilder;
 import com.cloudlabjp.cli.editor.annotation.JavaAnnotation;
 import com.github.javaparser.ast.body.MethodDeclaration;
+import com.github.javaparser.ast.expr.AnnotationExpr;
+import com.github.javaparser.ast.expr.MarkerAnnotationExpr;
 
 public final class CreateControllerMethodFactory {
 
@@ -28,6 +30,7 @@ public final class CreateControllerMethodFactory {
                 .parameter(
                         "Create" + entityName + "Request",
                         "request",
+                        JavaAnnotation.valid(),
                         JavaAnnotation.requestBody()
                 )
 

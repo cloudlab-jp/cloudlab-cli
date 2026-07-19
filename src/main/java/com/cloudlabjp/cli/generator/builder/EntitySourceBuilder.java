@@ -6,7 +6,10 @@ import java.util.List;
 
 public class EntitySourceBuilder {
 
-    public String buildFields(List<FieldDefinition> fields) {
+    public String buildFields(
+            List<FieldDefinition> fields,
+            FieldTarget target
+    ) {
 
         if (fields == null || fields.isEmpty()) {
             return "";
@@ -16,11 +19,28 @@ public class EntitySourceBuilder {
 
         for (FieldDefinition field : fields) {
 
+            if (target != FieldTarget.RESPONSE && field.required()) {
+
+                if ("String".equals(field.type())) {
+
+                    builder.append("    @NotBlank")
+                            .append(System.lineSeparator());
+
+                } else {
+
+                    builder.append("    @NotNull")
+                            .append(System.lineSeparator());
+
+                }
+
+            }
+
             builder.append("    private ")
                     .append(field.type())
                     .append(" ")
                     .append(field.name())
                     .append(";")
+                    .append(System.lineSeparator())
                     .append(System.lineSeparator());
 
         }

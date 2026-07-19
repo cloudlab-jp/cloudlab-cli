@@ -36,6 +36,7 @@ public final class UpdateControllerMethodFactory {
                 .parameter(
                         "Update" + entityName + "Request",
                         "request",
+                        JavaAnnotation.valid(),
                         JavaAnnotation.requestBody()
                 )
 

@@ -8,7 +8,7 @@ import java.util.List;
 public class FieldParser {
 
     public List<FieldDefinition> parse(List<String> values) {
-
+        System.out.println(">>> FieldParser ejecutándose");
         List<FieldDefinition> fields = new ArrayList<>();
 
         if (values == null || values.isEmpty()) {
@@ -25,15 +25,36 @@ public class FieldParser {
                 );
             }
 
+            String name = parts[0].trim();
+
+            String type = parts[1].trim();
+
+            boolean required = false;
+
+            if (type.endsWith("!")) {
+
+                required = true;
+
+                type = type.substring(0, type.length() - 1);
+
+            }
+
             fields.add(
+
                     new FieldDefinition(
-                            parts[0].trim(),
-                            parts[1].trim()
+
+                            name,
+
+                            type,
+
+                            required
+
                     )
+
             );
 
         }
-
+        System.out.println(fields);
         return fields;
 
     }

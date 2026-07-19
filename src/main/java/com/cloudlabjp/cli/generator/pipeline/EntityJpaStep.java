@@ -5,6 +5,7 @@ import com.cloudlabjp.cli.editor.JavaSourceEditor;
 import com.cloudlabjp.cli.editor.configurer.EntityConfigurer;
 import com.cloudlabjp.cli.editor.configurer.FieldConfigurer;
 import com.cloudlabjp.cli.editor.configurer.imports.EntityImportsConfigurer;
+import com.cloudlabjp.cli.editor.configurer.ValidationImportsConfigurer;
 
 public class EntityJpaStep implements GeneratorStep {
 
@@ -17,6 +18,9 @@ public class EntityJpaStep implements GeneratorStep {
     private final FieldConfigurer fields =
             new FieldConfigurer();
 
+    private final ValidationImportsConfigurer validations =
+            new ValidationImportsConfigurer();
+
     @Override
     public void execute(GenerationContext context) {
 
@@ -27,6 +31,11 @@ public class EntityJpaStep implements GeneratorStep {
                 editor.editor();
 
         imports.configure(unit);
+
+        validations.configure(
+                unit,
+                context.fields()
+        );
 
         entity.configure(
                 unit,

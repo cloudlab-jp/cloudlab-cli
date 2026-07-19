@@ -74,7 +74,7 @@ public class MethodAstBuilder implements AstBuilder<MethodDeclaration> {
     public MethodAstBuilder parameter(
             String type,
             String name,
-            AnnotationExpr annotation
+            AnnotationExpr... annotations
     ) {
 
         Parameter parameter = new Parameter();
@@ -83,7 +83,9 @@ public class MethodAstBuilder implements AstBuilder<MethodDeclaration> {
 
         parameter.setName(name);
 
-        parameter.addAnnotation(annotation);
+        for (AnnotationExpr annotation : annotations) {
+            parameter.addAnnotation(annotation);
+        }
 
         method.addParameter(parameter);
 

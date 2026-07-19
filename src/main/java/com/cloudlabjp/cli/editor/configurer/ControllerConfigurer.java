@@ -42,6 +42,8 @@ public class ControllerConfigurer {
 
                 .add("java.util.List")
 
+                .add("jakarta.validation.Valid")
+
                 .add(basePackage
                         + ".modules."
                         + moduleName

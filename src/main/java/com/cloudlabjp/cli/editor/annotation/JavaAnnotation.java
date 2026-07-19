@@ -189,5 +189,9 @@ public final class JavaAnnotation {
 
     }
 
+    public static AnnotationExpr valid() {
+        return new MarkerAnnotationExpr("Valid");
+    }
+
 
 }

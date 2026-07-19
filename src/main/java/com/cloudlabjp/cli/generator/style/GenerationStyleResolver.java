@@ -65,4 +65,50 @@ public class GenerationStyleResolver {
 
     }
 
+    public String dtoImports(List<FieldDefinition> fields) {
+
+        StringBuilder builder = new StringBuilder();
+
+        boolean hasNotBlank = false;
+
+        boolean hasNotNull = false;
+
+        for (FieldDefinition field : fields) {
+
+            if (!field.required()) {
+                continue;
+            }
+
+            if ("String".equals(field.type())) {
+
+                hasNotBlank = true;
+
+            } else {
+
+                hasNotNull = true;
+
+            }
+
+        }
+
+        if (hasNotBlank) {
+
+            builder.append(
+                    "import jakarta.validation.constraints.NotBlank;"
+            ).append(System.lineSeparator());
+
+        }
+
+        if (hasNotNull) {
+
+            builder.append(
+                    "import jakarta.validation.constraints.NotNull;"
+            ).append(System.lineSeparator());
+
+        }
+
+        return builder.toString();
+
+    }
+
 }

@@ -4,7 +4,9 @@ public record FieldDefinition(
 
         String name,
 
-        String type
+        String type,
+
+        boolean required
 
 ) {
 }

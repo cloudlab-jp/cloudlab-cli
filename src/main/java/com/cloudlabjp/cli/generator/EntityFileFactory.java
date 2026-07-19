@@ -1,6 +1,7 @@
 package com.cloudlabjp.cli.generator;
 
 import com.cloudlabjp.cli.generator.builder.EntitySourceBuilder;
+import com.cloudlabjp.cli.generator.builder.FieldTarget;
 import com.cloudlabjp.cli.generator.model.GeneratedFile;
 import com.cloudlabjp.cli.generator.style.GenerationStyleResolver;
 import com.cloudlabjp.cli.model.FieldDefinition;
@@ -39,18 +40,8 @@ public class EntityFileFactory {
         variables.put("className", className);
 
         variables.put(
-                "imports",
-                styleResolver.entityImports(fields)
-        );
-
-        variables.put(
                 "annotations",
                 styleResolver.entityAnnotations()
-        );
-
-        variables.put(
-                "fields",
-                sourceBuilder.buildFields(fields)
         );
 
         if (styleResolver.useLombok()) {
@@ -81,13 +72,85 @@ public class EntityFileFactory {
 
         }
 
+        Map<String, String> entityVariables =
+                new HashMap<>(variables);
+
+        entityVariables.put(
+                "imports",
+                styleResolver.entityImports(fields)
+        );
+
+        entityVariables.put(
+                "fields",
+                sourceBuilder.buildFields(
+                        fields,
+                        FieldTarget.ENTITY
+                )
+        );
+
+        Map<String, String> createVariables =
+                new HashMap<>(variables);
+
+        createVariables.put(
+                "imports",
+                styleResolver.dtoImports(fields)
+        );
+
+        createVariables.put(
+                "fields",
+                sourceBuilder.buildFields(
+                        fields,
+                        FieldTarget.CREATE_REQUEST
+                )
+        );
+
+        Map<String, String> updateVariables =
+                new HashMap<>(variables);
+
+        updateVariables.put(
+                "imports",
+                styleResolver.dtoImports(fields)
+        );
+
+        updateVariables.put(
+                "fields",
+                sourceBuilder.buildFields(
+                        fields,
+                        FieldTarget.UPDATE_REQUEST
+                )
+        );
+
+        Map<String, String> responseVariables =
+                new HashMap<>(variables);
+
+        responseVariables.put(
+                "imports",
+                ""
+        );
+
+        responseVariables.put(
+                "fields",
+                sourceBuilder.buildFields(
+                        fields,
+                        FieldTarget.RESPONSE
+                )
+        );
+
+        Map<String, String> mapperVariables =
+                new HashMap<>(variables);
+
+        mapperVariables.put(
+                "imports",
+                ""
+        );
+
         return List.of(
 
                 new GeneratedFile(
                         "domain/model/" + className + ".java",
                         templateEngine.render(
                                 "entity.java.tpl",
-                                variables
+                                entityVariables
                         )
                 ),
 
@@ -95,7 +158,7 @@ public class EntityFileFactory {
                         "application/dto/Create" + className + "Request.java",
                         templateEngine.render(
                                 "create-request.java.tpl",
-                                variables
+                                createVariables
                         )
                 ),
 
@@ -103,7 +166,7 @@ public class EntityFileFactory {
                         "application/dto/Update" + className + "Request.java",
                         templateEngine.render(
                                 "update-request.java.tpl",
-                                variables
+                                updateVariables
                         )
                 ),
 
@@ -111,7 +174,7 @@ public class EntityFileFactory {
                         "application/dto/" + className + "Response.java",
                         templateEngine.render(
                                 "response.java.tpl",
-                                variables
+                                responseVariables
                         )
                 ),
 
@@ -119,7 +182,7 @@ public class EntityFileFactory {
                         "application/mapper/" + className + "Mapper.java",
                         templateEngine.render(
                                 "mapper.java.tpl",
-                                variables
+                                mapperVariables
                         )
                 )
 
