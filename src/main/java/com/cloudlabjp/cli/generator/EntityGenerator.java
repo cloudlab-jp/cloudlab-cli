@@ -126,6 +126,8 @@ public class EntityGenerator {
 
                                     project,
 
+                                    moduleName,
+
                                     entityFile,
 
                                     entityName,
@@ -151,6 +153,8 @@ public class EntityGenerator {
                             new GenerationContext(
 
                                     project,
+
+                                    moduleName,
 
                                     repositoryFile,
 

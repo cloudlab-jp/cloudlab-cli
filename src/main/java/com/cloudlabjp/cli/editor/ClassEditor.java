@@ -99,4 +99,10 @@ public class ClassEditor {
 
     }
 
+    ClassOrInterfaceDeclaration declaration() {
+
+        return clazz;
+
+    }
+
 }

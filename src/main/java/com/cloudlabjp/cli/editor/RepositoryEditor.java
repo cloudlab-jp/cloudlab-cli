@@ -20,4 +20,14 @@ public class RepositoryEditor {
 
     }
 
+    public void configure(String entityName) {
+
+        clazz.declaration()
+
+                .addExtendedType(
+                        "JpaRepository<" + entityName + ", Long>"
+                );
+
+    }
+
 }

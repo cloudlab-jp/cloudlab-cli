@@ -10,11 +10,12 @@ public record GenerationContext(
 
         ProjectInfo project,
 
+        String module,
+
         Path file,
 
         String entityName,
 
         List<FieldDefinition> fields
 
-) {
-}
+) {}
