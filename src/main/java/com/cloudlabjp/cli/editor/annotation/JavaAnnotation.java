@@ -227,4 +227,33 @@ public final class JavaAnnotation {
         return annotation;
 
     }
+
+    public static AnnotationExpr oneToMany(String mappedBy) {
+
+        NormalAnnotationExpr annotation =
+                new NormalAnnotationExpr();
+
+        annotation.setName("OneToMany");
+
+        annotation.addPair(
+                "mappedBy",
+                new StringLiteralExpr(mappedBy)
+        );
+
+        annotation.addPair(
+                "cascade",
+                new FieldAccessExpr(
+                        new NameExpr("CascadeType"),
+                        "ALL"
+                )
+        );
+
+        annotation.addPair(
+                "orphanRemoval",
+                new BooleanLiteralExpr(true)
+        );
+
+        return annotation;
+
+    }
 }

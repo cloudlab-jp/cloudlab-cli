@@ -9,7 +9,9 @@ public final class PipelineFactory {
 
         return new GeneratorPipeline()
 
-                .add(new EntityJpaStep());
+                .add(new EntityJpaStep())
+
+                .add(new RelationshipStep());
 
     }
 

@@ -55,6 +55,14 @@ public class FieldAstBuilder {
 
     }
 
+    public FieldAstBuilder initializer(String value) {
+
+        variable.setInitializer(value);
+
+        return this;
+
+    }
+
     public FieldDeclaration build() {
 
         annotations.forEach(field::addAnnotation);
@@ -64,5 +72,9 @@ public class FieldAstBuilder {
         return field;
 
     }
+
+
+
+
 
 }

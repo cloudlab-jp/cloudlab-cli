@@ -43,10 +43,6 @@ public class EntityGenerator {
     private final MapperFeatureGenerator mapperFeatureGenerator =
             new MapperFeatureGenerator();
 
-    private final GeneratorPipeline entityPipeline =
-            new GeneratorPipeline()
-                    .add(new EntityJpaStep());
-
     private final ServiceConfigurer serviceConfigurer =
             new ServiceConfigurer();
 
@@ -127,6 +123,8 @@ public class EntityGenerator {
                     .execute(
 
                             new GenerationContext(
+
+                                    project,
 
                                     entityFile,
 
