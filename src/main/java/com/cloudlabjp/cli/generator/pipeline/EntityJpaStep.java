@@ -30,7 +30,10 @@ public class EntityJpaStep implements GeneratorStep {
         CompilationUnitEditor unit =
                 editor.editor();
 
-        imports.configure(unit);
+        imports.configure(
+                unit,
+                context.fields()
+        );
 
         validations.configure(
                 unit,

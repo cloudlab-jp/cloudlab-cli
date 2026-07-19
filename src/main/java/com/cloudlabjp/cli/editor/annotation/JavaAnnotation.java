@@ -193,5 +193,38 @@ public final class JavaAnnotation {
         return new MarkerAnnotationExpr("Valid");
     }
 
+    public static AnnotationExpr manyToOneLazy() {
 
+        NormalAnnotationExpr annotation =
+                new NormalAnnotationExpr();
+
+        annotation.setName("ManyToOne");
+
+        annotation.addPair(
+                "fetch",
+                new FieldAccessExpr(
+                        new NameExpr("FetchType"),
+                        "LAZY"
+                )
+        );
+
+        return annotation;
+
+    }
+
+    public static AnnotationExpr joinColumn(String columnName) {
+
+        NormalAnnotationExpr annotation =
+                new NormalAnnotationExpr();
+
+        annotation.setName("JoinColumn");
+
+        annotation.addPair(
+                "name",
+                new StringLiteralExpr(columnName)
+        );
+
+        return annotation;
+
+    }
 }

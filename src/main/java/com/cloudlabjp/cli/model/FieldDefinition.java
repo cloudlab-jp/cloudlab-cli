@@ -6,6 +6,8 @@ public record FieldDefinition(
 
         String type,
 
+        FieldKind kind,
+
         boolean required
 
 ) {

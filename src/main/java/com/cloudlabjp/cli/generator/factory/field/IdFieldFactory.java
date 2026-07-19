@@ -19,9 +19,9 @@ public final class IdFieldFactory {
 
                 .name("id")
 
-                .annotate(JavaAnnotation.id())
+                .annotation(JavaAnnotation.id())
 
-                .annotate(JavaAnnotation.generatedValueIdentity())
+                .annotation(JavaAnnotation.generatedValueIdentity())
 
                 .build();
 

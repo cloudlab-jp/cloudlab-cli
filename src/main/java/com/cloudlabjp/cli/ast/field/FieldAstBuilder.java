@@ -5,6 +5,9 @@ import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.body.VariableDeclarator;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class FieldAstBuilder {
 
     private final FieldDeclaration field =
@@ -12,6 +15,9 @@ public class FieldAstBuilder {
 
     private final VariableDeclarator variable =
             new VariableDeclarator();
+
+    private final List<AnnotationExpr> annotations =
+            new ArrayList<>();
 
     public FieldAstBuilder privateField() {
 
@@ -39,17 +45,19 @@ public class FieldAstBuilder {
 
     }
 
-    public FieldAstBuilder annotate(
+    public FieldAstBuilder annotation(
             AnnotationExpr annotation
     ) {
 
-        field.addAnnotation(annotation);
+        annotations.add(annotation);
 
         return this;
 
     }
 
     public FieldDeclaration build() {
+
+        annotations.forEach(field::addAnnotation);
 
         field.addVariable(variable);
 

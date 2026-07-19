@@ -1,32 +1,32 @@
 package com.cloudlabjp.cli.editor.configurer.imports;
 
 import com.cloudlabjp.cli.editor.CompilationUnitEditor;
+import com.cloudlabjp.cli.generator.imports.EntityImportResolver;
+import com.cloudlabjp.cli.generator.imports.JpaImportResolver;
+import com.cloudlabjp.cli.model.FieldDefinition;
+
+import java.util.List;
 
 public class EntityImportsConfigurer {
 
-    public void configure(CompilationUnitEditor unit) {
+    private final EntityImportResolver entityImports =
+            new EntityImportResolver();
 
-        unit.imports()
+    private final JpaImportResolver jpaImports =
+            new JpaImportResolver();
 
-                .add("jakarta.persistence.Entity")
+    public void configure(
+            CompilationUnitEditor unit,
+            List<FieldDefinition> fields
+    ) {
 
-                .add("jakarta.persistence.Table")
+        entityImports.resolve()
 
-                .add("jakarta.persistence.Id")
+                .forEach(unit.imports()::add);
 
-                .add("jakarta.persistence.GeneratedValue")
+        jpaImports.resolve(fields)
 
-                .add("jakarta.persistence.GenerationType")
-
-                .add("lombok.Getter")
-
-                .add("lombok.Setter")
-
-                .add("lombok.Builder")
-
-                .add("lombok.NoArgsConstructor")
-
-                .add("lombok.AllArgsConstructor");
+                .forEach(unit.imports()::add);
 
     }
 

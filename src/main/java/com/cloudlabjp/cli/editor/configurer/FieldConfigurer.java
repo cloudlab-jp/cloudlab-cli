@@ -1,6 +1,7 @@
 package com.cloudlabjp.cli.editor.configurer;
 
 import com.cloudlabjp.cli.editor.CompilationUnitEditor;
+import com.cloudlabjp.cli.generator.factory.field.ManyToOneFieldFactory;
 import com.cloudlabjp.cli.generator.factory.field.SimpleFieldFactory;
 import com.cloudlabjp.cli.model.FieldDefinition;
 
@@ -15,13 +16,35 @@ public class FieldConfigurer {
 
         for (FieldDefinition field : fields) {
 
-            unit.clazz()
+            switch (field.kind()) {
 
-                    .fields()
+                case SIMPLE ->
 
-                    .add(
-                            SimpleFieldFactory.build(field)
-                    );
+                        unit.clazz()
+
+                                .fields()
+
+                                .add(
+                                        SimpleFieldFactory.build(field)
+                                );
+
+                case MANY_TO_ONE ->
+
+                        unit.clazz()
+
+                                .fields()
+
+                                .add(
+                                        ManyToOneFieldFactory.build(field)
+                                );
+
+                case ONE_TO_MANY -> {
+                }
+
+                case MANY_TO_MANY -> {
+                }
+
+            }
 
         }
 

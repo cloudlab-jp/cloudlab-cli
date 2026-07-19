@@ -1,6 +1,7 @@
 package com.cloudlabjp.cli.parser;
 
 import com.cloudlabjp.cli.model.FieldDefinition;
+import com.cloudlabjp.cli.model.FieldKind;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,7 +36,23 @@ public class FieldParser {
 
                 required = true;
 
-                type = type.substring(0, type.length() - 1);
+                type = type.substring(
+                        0,
+                        type.length() - 1
+                );
+
+            }
+
+            FieldKind kind = FieldKind.SIMPLE;
+
+            if (type.endsWith("#")) {
+
+                kind = FieldKind.MANY_TO_ONE;
+
+                type = type.substring(
+                        0,
+                        type.length() - 1
+                );
 
             }
 
@@ -46,6 +63,8 @@ public class FieldParser {
                             name,
 
                             type,
+
+                            kind,
 
                             required
 
