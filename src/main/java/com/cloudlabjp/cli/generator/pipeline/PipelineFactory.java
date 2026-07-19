@@ -15,6 +15,14 @@ public final class PipelineFactory {
 
     }
 
+    public static GeneratorPipeline repository() {
+
+        return new GeneratorPipeline()
+
+                .add(new RepositoryStep());
+
+    }
+
     public static GeneratorPipeline service() {
 
         return new GeneratorPipeline();
@@ -26,5 +34,13 @@ public final class PipelineFactory {
         return new GeneratorPipeline();
 
     }
+
+    public static GeneratorPipeline controller() {
+
+        return new GeneratorPipeline();
+
+    }
+
+
 
 }

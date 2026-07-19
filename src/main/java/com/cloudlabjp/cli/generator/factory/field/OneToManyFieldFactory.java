@@ -2,6 +2,7 @@ package com.cloudlabjp.cli.generator.factory.field;
 
 import com.cloudlabjp.cli.ast.field.FieldAstBuilder;
 import com.cloudlabjp.cli.editor.annotation.JavaAnnotation;
+import com.cloudlabjp.cli.model.FieldDefinition;
 import com.github.javaparser.ast.body.FieldDeclaration;
 
 public final class OneToManyFieldFactory {
@@ -33,6 +34,14 @@ public final class OneToManyFieldFactory {
                 .initializer("new ArrayList<>()")
 
                 .build();
+
+    }
+
+    public static FieldDeclaration build(FieldDefinition field) {
+
+        throw new UnsupportedOperationException(
+                "OneToOne not implemented."
+        );
 
     }
 

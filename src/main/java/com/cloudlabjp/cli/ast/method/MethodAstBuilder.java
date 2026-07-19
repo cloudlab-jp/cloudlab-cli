@@ -3,23 +3,46 @@ package com.cloudlabjp.cli.ast.method;
 import com.cloudlabjp.cli.ast.builder.AstBuilder;
 import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.body.MethodDeclaration;
-import com.github.javaparser.ast.stmt.BlockStmt;
-import com.github.javaparser.ast.expr.AnnotationExpr;
 import com.github.javaparser.ast.body.Parameter;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.github.javaparser.ast.expr.AnnotationExpr;
+import com.github.javaparser.ast.stmt.BlockStmt;
 
 public class MethodAstBuilder implements AstBuilder<MethodDeclaration> {
 
     private final MethodDeclaration method =
             new MethodDeclaration();
 
-    private final List<AnnotationExpr> annotations = new ArrayList<>();
+    private boolean abstractMethod = false;
 
     public MethodAstBuilder publicMethod() {
 
         method.setPublic(true);
+
+        return this;
+
+    }
+
+    public MethodAstBuilder noModifier() {
+
+        method.getModifiers().clear();
+
+        return this;
+
+    }
+
+    public MethodAstBuilder inInterface() {
+
+        method.getModifiers().clear();
+
+        abstractMethod = true;
+
+        return this;
+
+    }
+
+    public MethodAstBuilder abstractMethod() {
+
+        abstractMethod = true;
 
         return this;
 
@@ -41,33 +64,14 @@ public class MethodAstBuilder implements AstBuilder<MethodDeclaration> {
 
     }
 
-    public MethodAstBuilder parameter(String type,
-                                      String name) {
+    public MethodAstBuilder parameter(
+            String type,
+            String name
+    ) {
 
         method.addParameter(type, name);
 
         return this;
-
-    }
-
-    public MethodAstBuilder body(String body) {
-
-        BlockStmt block =
-                StaticJavaParser.parseBlock(
-                        "{\n" + body + "\n}"
-                );
-
-        method.setBody(block);
-
-        return this;
-
-    }
-
-
-    @Override
-    public MethodDeclaration build() {
-
-        return method;
 
     }
 
@@ -84,7 +88,9 @@ public class MethodAstBuilder implements AstBuilder<MethodDeclaration> {
         parameter.setName(name);
 
         for (AnnotationExpr annotation : annotations) {
+
             parameter.addAnnotation(annotation);
+
         }
 
         method.addParameter(parameter);
@@ -93,11 +99,39 @@ public class MethodAstBuilder implements AstBuilder<MethodDeclaration> {
 
     }
 
-    public MethodAstBuilder annotation(AnnotationExpr annotation) {
+    public MethodAstBuilder annotation(
+            AnnotationExpr annotation
+    ) {
 
         method.addAnnotation(annotation);
 
         return this;
+
+    }
+
+    public MethodAstBuilder body(String source) {
+
+        BlockStmt block =
+                StaticJavaParser.parseBlock(
+                        "{\n" + source + "\n}"
+                );
+
+        method.setBody(block);
+
+        return this;
+
+    }
+
+    @Override
+    public MethodDeclaration build() {
+
+        if (abstractMethod) {
+
+            method.removeBody();
+
+        }
+
+        return method;
 
     }
 

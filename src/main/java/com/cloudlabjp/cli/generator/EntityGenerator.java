@@ -140,6 +140,28 @@ public class EntityGenerator {
                     "application/service/" + entityName + "Service.java"
             );
 
+            Path repositoryFile = modulePath.resolve(
+                    "domain/repository/" + entityName + "Repository.java"
+            );
+
+            PipelineFactory.repository()
+
+                    .execute(
+
+                            new GenerationContext(
+
+                                    project,
+
+                                    repositoryFile,
+
+                                    entityName,
+
+                                    fields
+
+                            )
+
+                    );
+
             serviceConfigurer.configure(
 
                     serviceFile,

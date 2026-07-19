@@ -93,4 +93,10 @@ public class ClassEditor {
 
     }
 
+    public RepositoryEditor repository() {
+
+        return new RepositoryEditor(this);
+
+    }
+
 }

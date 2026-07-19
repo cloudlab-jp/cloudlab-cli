@@ -2,6 +2,7 @@ package com.cloudlabjp.cli.generator.pipeline;
 
 import com.cloudlabjp.cli.editor.CompilationUnitEditor;
 import com.cloudlabjp.cli.editor.JavaSourceEditor;
+import com.cloudlabjp.cli.editor.configurer.imports.RelationshipImportsConfigurer;
 import com.cloudlabjp.cli.model.FieldDefinition;
 import com.cloudlabjp.cli.model.FieldKind;
 import com.cloudlabjp.cli.project.EntityFinder;
@@ -12,6 +13,9 @@ public class RelationshipStep implements GeneratorStep {
 
     private final EntityFinder entityFinder =
             new EntityFinder();
+
+    private final RelationshipImportsConfigurer imports =
+            new RelationshipImportsConfigurer();
 
     @Override
     public void execute(GenerationContext context) {
@@ -33,6 +37,11 @@ public class RelationshipStep implements GeneratorStep {
 
             CompilationUnitEditor unit =
                     editor.editor();
+
+            imports.configure(
+                    unit,
+                    FieldKind.ONE_TO_MANY
+            );
 
             unit.clazz()
 
