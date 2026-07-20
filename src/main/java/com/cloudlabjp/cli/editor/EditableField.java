@@ -12,26 +12,31 @@ public class EditableField {
         this.field = field;
     }
 
-    private void addIfMissing(AnnotationExpr annotation) {
+    public EditableField annotate(AnnotationExpr annotation) {
 
-        String name = annotation.getNameAsString();
+        String annotationName = annotation.getNameAsString();
 
         boolean exists = field.getAnnotations()
                 .stream()
-                .anyMatch(a -> a.getNameAsString().equals(name));
+                .anyMatch(a ->
+                        a.getNameAsString().equals(annotationName));
 
         if (!exists) {
             field.addAnnotation(annotation);
         }
+
+        return this;
+
     }
 
-    public EditableField annotate(String annotation) {
+    public EditableField annotate(
+            String annotation
+    ) {
 
-        addIfMissing(
+        return annotate(
                 StaticJavaParser.parseAnnotation(annotation)
         );
 
-        return this;
     }
 
 }

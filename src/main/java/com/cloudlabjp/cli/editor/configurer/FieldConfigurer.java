@@ -1,5 +1,6 @@
 package com.cloudlabjp.cli.editor.configurer;
 
+import com.cloudlabjp.cli.editor.EditableField;
 import com.cloudlabjp.cli.editor.CompilationUnitEditor;
 import com.cloudlabjp.cli.generator.factory.field.FieldFactory;
 import com.cloudlabjp.cli.model.FieldDefinition;
@@ -8,6 +9,9 @@ import java.util.List;
 
 public class FieldConfigurer {
 
+    private final EnumConfigurer enumConfigurer =
+            new EnumConfigurer();
+
     public void configure(
             CompilationUnitEditor unit,
             List<FieldDefinition> fields
@@ -15,13 +19,22 @@ public class FieldConfigurer {
 
         for (FieldDefinition field : fields) {
 
-            if (unit.clazz().hasField(field.name())) {
-                continue;
-            }
+            EditableField editableField =
 
-            unit.clazz()
-                    .fields()
-                    .add(FieldFactory.build(field));
+                    unit.clazz()
+
+                            .fields()
+
+                            .add(
+
+                                    FieldFactory.build(field)
+
+                            );
+
+            enumConfigurer.configure(
+                    editableField,
+                    field
+            );
 
         }
 

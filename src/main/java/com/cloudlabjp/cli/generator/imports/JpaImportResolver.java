@@ -20,22 +20,31 @@ public class JpaImportResolver {
 
             switch (field.kind()) {
 
+                case SIMPLE -> {
+                }
+
+                case ENUM -> resolveEnum(imports);
+
                 case MANY_TO_ONE -> resolveManyToOne(imports);
+
+                case ONE_TO_ONE -> resolveOneToOne(imports);
 
                 case ONE_TO_MANY -> resolveOneToMany(imports);
 
                 case MANY_TO_MANY -> resolveManyToMany(imports);
-
-
-
-                case SIMPLE -> {
-                }
 
             }
 
         }
 
         return imports;
+
+    }
+
+    private void resolveEnum(Set<String> imports) {
+
+        imports.add("jakarta.persistence.Enumerated");
+        imports.add("jakarta.persistence.EnumType");
 
     }
 
