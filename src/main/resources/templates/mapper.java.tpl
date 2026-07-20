@@ -1,8 +1,6 @@
 package {{basePackage}}.modules.{{module}}.application.mapper;
 
-import {{basePackage}}.modules.{{module}}.application.dto.Create{{className}}Request;
-import {{basePackage}}.modules.{{module}}.application.dto.{{className}}Response;
-import {{basePackage}}.modules.{{module}}.domain.model.{{className}};
+{{imports}}
 
 public class {{className}}Mapper {
 

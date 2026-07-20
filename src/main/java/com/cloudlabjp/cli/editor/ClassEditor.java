@@ -18,6 +18,24 @@ public class ClassEditor {
 
     }
 
+    public void replaceMethod(MethodDeclaration method) {
+
+        clazz.getMethods()
+
+                .stream()
+
+                .filter(existing ->
+                        existing.getSignature()
+                                .equals(method.getSignature()))
+
+                .findFirst()
+
+                .ifPresent(MethodDeclaration::remove);
+
+        clazz.addMember(method);
+
+    }
+
     public AnnotationEditor annotations() {
 
         return new AnnotationEditor(clazz);

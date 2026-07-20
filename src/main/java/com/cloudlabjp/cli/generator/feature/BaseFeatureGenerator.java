@@ -8,9 +8,11 @@ import java.nio.file.Path;
 
 public abstract class BaseFeatureGenerator {
 
-    protected void addMethod(Path file,
-                             String methodName,
-                             MethodDeclaration method) {
+    protected void addMethod(
+            Path file,
+            String methodName,
+            MethodDeclaration method
+    ) {
 
         JavaSourceEditor editor =
                 new JavaSourceEditor(file);
@@ -18,12 +20,9 @@ public abstract class BaseFeatureGenerator {
         CompilationUnitEditor unit =
                 editor.editor();
 
-        if (unit.clazz().hasMethod(methodName)) {
-            return;
-        }
-
         unit.clazz()
-                .addMethod(method);
+
+                .replaceMethod(method);
 
         editor.save();
 

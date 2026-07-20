@@ -93,7 +93,7 @@ public class EntityFileFactory {
 
         createVariables.put(
                 "imports",
-                styleResolver.dtoImports(fields)
+                styleResolver.requestDtoImports(fields)
         );
 
         createVariables.put(
@@ -109,7 +109,7 @@ public class EntityFileFactory {
 
         updateVariables.put(
                 "imports",
-                styleResolver.dtoImports(fields)
+                styleResolver.requestDtoImports(fields)
         );
 
         updateVariables.put(
@@ -125,7 +125,7 @@ public class EntityFileFactory {
 
         responseVariables.put(
                 "imports",
-                ""
+                styleResolver.responseDtoImports(fields)
         );
 
         responseVariables.put(
@@ -141,7 +141,11 @@ public class EntityFileFactory {
 
         mapperVariables.put(
                 "imports",
-                ""
+                styleResolver.mapperImports(
+                        project.basePackage(),
+                        module,
+                        className
+                )
         );
 
         return List.of(

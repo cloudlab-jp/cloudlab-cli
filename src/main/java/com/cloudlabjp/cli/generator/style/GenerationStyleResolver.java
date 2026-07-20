@@ -3,9 +3,11 @@ package com.cloudlabjp.cli.generator.style;
 import com.cloudlabjp.cli.config.EntityStyle;
 import com.cloudlabjp.cli.config.GeneratorConfiguration;
 import com.cloudlabjp.cli.generator.builder.LombokBuilder;
+import com.cloudlabjp.cli.generator.imports.MapperImportResolver;
 import com.cloudlabjp.cli.model.FieldDefinition;
 import com.cloudlabjp.cli.project.ProjectInfo;
 import com.cloudlabjp.cli.template.ImportResolver;
+import com.cloudlabjp.cli.generator.imports.JavaTypeImportResolver;
 
 import java.util.List;
 
@@ -18,6 +20,12 @@ public class GenerationStyleResolver {
 
     private final LombokBuilder lombokBuilder =
             new LombokBuilder();
+
+    private final JavaTypeImportResolver javaTypeImports =
+            new JavaTypeImportResolver();
+
+    private final MapperImportResolver mapperImports =
+            new MapperImportResolver();
 
     public GenerationStyleResolver(ProjectInfo project) {
 
@@ -65,9 +73,16 @@ public class GenerationStyleResolver {
 
     }
 
-    public String dtoImports(List<FieldDefinition> fields) {
+    public String requestDtoImports(List<FieldDefinition> fields) {
 
         StringBuilder builder = new StringBuilder();
+
+        javaTypeImports.resolve(fields)
+                .forEach(importValue ->
+                        builder.append("import ")
+                                .append(importValue)
+                                .append(";")
+                                .append(System.lineSeparator()));
 
         boolean hasNotBlank = false;
 
@@ -106,6 +121,38 @@ public class GenerationStyleResolver {
             ).append(System.lineSeparator());
 
         }
+
+        return builder.toString();
+
+    }
+
+    public String mapperImports(
+            String basePackage,
+            String module,
+            String entityName
+    ) {
+
+        return mapperImports.resolve(
+                basePackage,
+                module,
+                entityName
+        );
+
+    }
+
+    public String responseDtoImports(
+            List<FieldDefinition> fields
+    ) {
+
+        StringBuilder builder = new StringBuilder();
+
+        javaTypeImports.resolve(fields)
+
+                .forEach(importValue ->
+                        builder.append("import ")
+                                .append(importValue)
+                                .append(";")
+                                .append(System.lineSeparator()));
 
         return builder.toString();
 
