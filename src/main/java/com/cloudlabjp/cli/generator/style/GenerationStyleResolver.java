@@ -122,6 +122,18 @@ public class GenerationStyleResolver {
 
         }
 
+        if (useLombok()) {
+
+            if (!builder.isEmpty()) {
+                builder.append(System.lineSeparator());
+            }
+
+            builder.append(
+                    lombokBuilder.buildDtoImports()
+            );
+
+        }
+
         return builder.toString();
 
     }
@@ -147,14 +159,37 @@ public class GenerationStyleResolver {
         StringBuilder builder = new StringBuilder();
 
         javaTypeImports.resolve(fields)
-
                 .forEach(importValue ->
                         builder.append("import ")
                                 .append(importValue)
                                 .append(";")
                                 .append(System.lineSeparator()));
 
+        if (useLombok()) {
+
+            if (!builder.isEmpty()) {
+                builder.append(System.lineSeparator());
+            }
+
+            builder.append(
+                    lombokBuilder.buildDtoImports()
+            );
+
+        }
+
         return builder.toString();
+
+    }
+
+    public String dtoAnnotations() {
+
+        if (useLombok()) {
+
+            return lombokBuilder.buildDtoAnnotations();
+
+        }
+
+        return "";
 
     }
 

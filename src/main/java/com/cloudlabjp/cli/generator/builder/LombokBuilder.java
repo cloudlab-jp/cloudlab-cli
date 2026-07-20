@@ -9,8 +9,7 @@ public class LombokBuilder {
                 import lombok.Builder;
                 import lombok.Getter;
                 import lombok.NoArgsConstructor;
-                import lombok.Setter;
-                """;
+                import lombok.Setter;""";
 
     }
 
@@ -21,24 +20,39 @@ public class LombokBuilder {
                 @Setter
                 @Builder
                 @NoArgsConstructor
-                @AllArgsConstructor
-                """;
+                @AllArgsConstructor""";
 
     }
 
     public String buildServiceImports() {
 
         return """
-                import lombok.RequiredArgsConstructor;
-                """;
+                import lombok.RequiredArgsConstructor;""";
 
     }
 
     public String buildServiceAnnotations() {
 
         return """
-                @RequiredArgsConstructor
-                """;
+                @RequiredArgsConstructor""";
+
+    }
+
+    public String buildDtoImports() {
+
+        return """
+            import lombok.Getter;
+            import lombok.NoArgsConstructor;
+            import lombok.Setter;""";
+
+    }
+
+    public String buildDtoAnnotations() {
+
+        return """
+            @Getter
+            @Setter
+            @NoArgsConstructor""";
 
     }
 

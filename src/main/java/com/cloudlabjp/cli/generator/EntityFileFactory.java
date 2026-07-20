@@ -97,6 +97,11 @@ public class EntityFileFactory {
         );
 
         createVariables.put(
+                "annotations",
+                styleResolver.dtoAnnotations()
+        );
+
+        createVariables.put(
                 "fields",
                 sourceBuilder.buildFields(
                         fields,
@@ -113,6 +118,11 @@ public class EntityFileFactory {
         );
 
         updateVariables.put(
+                "annotations",
+                styleResolver.dtoAnnotations()
+        );
+
+        updateVariables.put(
                 "fields",
                 sourceBuilder.buildFields(
                         fields,
@@ -126,6 +136,11 @@ public class EntityFileFactory {
         responseVariables.put(
                 "imports",
                 styleResolver.responseDtoImports(fields)
+        );
+
+        responseVariables.put(
+                "annotations",
+                styleResolver.dtoAnnotations()
         );
 
         responseVariables.put(
