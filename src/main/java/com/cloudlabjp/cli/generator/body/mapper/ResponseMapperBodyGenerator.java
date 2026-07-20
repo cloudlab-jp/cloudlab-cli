@@ -1,6 +1,7 @@
 package com.cloudlabjp.cli.generator.body.mapper;
 
 import com.cloudlabjp.cli.model.FieldDefinition;
+import com.cloudlabjp.cli.model.FieldKind;
 
 import java.util.List;
 
@@ -22,11 +23,26 @@ public class ResponseMapperBodyGenerator {
 
             String property = capitalize(field.name());
 
-            body.append("response.set")
-                    .append(property)
-                    .append("(entity.get")
-                    .append(property)
-                    .append("());\n");
+            if (field.kind() == FieldKind.MANY_TO_ONE
+                    || field.kind() == FieldKind.ONE_TO_ONE) {
+
+                body.append("response.set")
+                        .append(property)
+                        .append("(entity.get")
+                        .append(property)
+                        .append("() != null ? entity.get")
+                        .append(property)
+                        .append("().getId() : null);\n");
+
+            } else {
+
+                body.append("response.set")
+                        .append(property)
+                        .append("(entity.get")
+                        .append(property)
+                        .append("());\n");
+
+            }
 
         }
 

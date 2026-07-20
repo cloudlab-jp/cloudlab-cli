@@ -9,6 +9,10 @@ import com.cloudlabjp.cli.project.ProjectInfo;
 import com.cloudlabjp.cli.template.ResourceTemplateEngine;
 import com.cloudlabjp.cli.util.StringUtils;
 
+import com.cloudlabjp.cli.model.FieldKind;
+
+import java.util.ArrayList;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -159,11 +163,15 @@ public class EntityFileFactory {
                 styleResolver.mapperImports(
                         project.basePackage(),
                         module,
-                        className
+                        className,
+                        fields
                 )
         );
 
-        return List.of(
+        List<GeneratedFile> files = new ArrayList<>();
+
+
+        files.add(
 
                 new GeneratedFile(
                         "domain/model/" + className + ".java",
@@ -171,7 +179,11 @@ public class EntityFileFactory {
                                 "entity.java.tpl",
                                 entityVariables
                         )
-                ),
+                )
+
+        );
+
+        files.add(
 
                 new GeneratedFile(
                         "application/dto/Create" + className + "Request.java",
@@ -179,7 +191,11 @@ public class EntityFileFactory {
                                 "create-request.java.tpl",
                                 createVariables
                         )
-                ),
+                )
+
+        );
+
+        files.add(
 
                 new GeneratedFile(
                         "application/dto/Update" + className + "Request.java",
@@ -187,7 +203,11 @@ public class EntityFileFactory {
                                 "update-request.java.tpl",
                                 updateVariables
                         )
-                ),
+                )
+
+        );
+
+        files.add(
 
                 new GeneratedFile(
                         "application/dto/" + className + "Response.java",
@@ -195,7 +215,11 @@ public class EntityFileFactory {
                                 "response.java.tpl",
                                 responseVariables
                         )
-                ),
+                )
+
+        );
+
+        files.add(
 
                 new GeneratedFile(
                         "application/mapper/" + className + "Mapper.java",
@@ -206,6 +230,33 @@ public class EntityFileFactory {
                 )
 
         );
+
+        EnumFileFactory enumFactory =
+                new EnumFileFactory();
+
+        for (FieldDefinition field : fields) {
+
+            if (field.kind() == FieldKind.ENUM) {
+
+                files.add(
+
+                        enumFactory.create(
+
+                                project,
+
+                                module,
+
+                                field.type()
+
+                        )
+
+                );
+
+            }
+
+        }
+
+        return files;
 
     }
 

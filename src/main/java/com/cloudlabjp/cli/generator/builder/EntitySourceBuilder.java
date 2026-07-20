@@ -1,10 +1,14 @@
 package com.cloudlabjp.cli.generator.builder;
 
+import com.cloudlabjp.cli.generator.resolver.DtoTypeResolver;
 import com.cloudlabjp.cli.model.FieldDefinition;
 
 import java.util.List;
 
 public class EntitySourceBuilder {
+
+    private final DtoTypeResolver dtoTypeResolver =
+            new DtoTypeResolver();
 
     public String buildFields(
             List<FieldDefinition> fields,
@@ -35,8 +39,13 @@ public class EntitySourceBuilder {
 
             }
 
+            String fieldType =
+                    target == FieldTarget.ENTITY
+                            ? field.type()
+                            : dtoTypeResolver.resolve(field);
+
             builder.append("    private ")
-                    .append(field.type())
+                    .append(fieldType)
                     .append(" ")
                     .append(field.name())
                     .append(";")
@@ -49,8 +58,10 @@ public class EntitySourceBuilder {
 
     }
 
-    public String buildConstructor(String className,
-                                   List<FieldDefinition> fields) {
+    public String buildConstructor(
+            String className,
+            List<FieldDefinition> fields
+    ) {
 
         if (fields == null || fields.isEmpty()) {
             return "";
@@ -96,13 +107,17 @@ public class EntitySourceBuilder {
 
     }
 
-    public String buildGetters(List<FieldDefinition> fields) {
+    public String buildGetters(
+            List<FieldDefinition> fields
+    ) {
 
         return "";
 
     }
 
-    public String buildSetters(List<FieldDefinition> fields) {
+    public String buildSetters(
+            List<FieldDefinition> fields
+    ) {
 
         return "";
 

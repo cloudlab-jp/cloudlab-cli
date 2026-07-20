@@ -141,13 +141,15 @@ public class GenerationStyleResolver {
     public String mapperImports(
             String basePackage,
             String module,
-            String entityName
+            String entityName,
+            List<FieldDefinition> fields
     ) {
 
         return mapperImports.resolve(
                 basePackage,
                 module,
-                entityName
+                entityName,
+                fields
         );
 
     }

@@ -1,7 +1,6 @@
 package com.cloudlabjp.cli.generator.factory.field;
 
 import com.cloudlabjp.cli.model.FieldDefinition;
-import com.cloudlabjp.cli.model.FieldKind;
 import com.github.javaparser.ast.body.FieldDeclaration;
 
 public final class FieldFactory {
@@ -16,22 +15,23 @@ public final class FieldFactory {
         return switch (field.kind()) {
 
             case SIMPLE ->
+                    SimpleFieldFactory.build(field);
 
+            case ENUM ->
                     SimpleFieldFactory.build(field);
 
             case MANY_TO_ONE ->
-
                     ManyToOneFieldFactory.build(field);
 
-            case ONE_TO_MANY ->
+            case ONE_TO_ONE ->
+                    OneToOneFieldFactory.build(field);
+// o ManyToOneFieldFactory.build(field) temporalmente
 
+            case ONE_TO_MANY ->
                     OneToManyFieldFactory.build(field);
 
             case MANY_TO_MANY ->
-
                     ManyToManyFieldFactory.build(field);
-
-
 
         };
 
