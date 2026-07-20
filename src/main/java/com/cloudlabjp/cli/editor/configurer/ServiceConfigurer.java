@@ -2,15 +2,21 @@ package com.cloudlabjp.cli.editor.configurer;
 
 import com.cloudlabjp.cli.editor.CompilationUnitEditor;
 import com.cloudlabjp.cli.editor.JavaSourceEditor;
+import com.cloudlabjp.cli.editor.configurer.imports.ServiceImportsConfigurer;
 
 import java.nio.file.Path;
 
 public class ServiceConfigurer {
 
-    public void configure(Path file,
-                          String basePackage,
-                          String moduleName,
-                          String entityName){
+    private final ServiceImportsConfigurer imports =
+            new ServiceImportsConfigurer();
+
+    public void configure(
+            Path file,
+            String basePackage,
+            String module,
+            String entity
+    ) {
 
         JavaSourceEditor editor =
                 new JavaSourceEditor(file);
@@ -18,68 +24,18 @@ public class ServiceConfigurer {
         CompilationUnitEditor unit =
                 editor.editor();
 
-        unit.imports()
-
-                .add("org.springframework.stereotype.Service")
-
-                .add("lombok.RequiredArgsConstructor");
-
-        unit.imports()
-
-                .add("java.util.List")
-
-                .add("org.springframework.stereotype.Service")
-
-                .add("lombok.RequiredArgsConstructor")
-
-                .add(basePackage
-                        + ".modules."
-                        + moduleName
-                        + ".domain.model."
-                        + entityName)
-
-                .add(basePackage
-                        + ".modules."
-                        + moduleName
-                        + ".domain.repository."
-                        + entityName
-                        + "Repository")
-
-                .add(basePackage
-                        + ".modules."
-                        + moduleName
-                        + ".application.mapper."
-                        + entityName
-                        + "Mapper")
-
-                .add(basePackage
-                        + ".modules."
-                        + moduleName
-                        + ".application.dto.Create"
-                        + entityName
-                        + "Request")
-
-                .add(basePackage
-                        + ".modules."
-                        + moduleName
-                        + ".application.dto.Update"
-                        + entityName
-                        + "Request")
-
-                .add(basePackage
-                        + ".modules."
-                        + moduleName
-                        + ".application.dto."
-                        + entityName
-                        + "Response");
+        imports.configure(
+                unit,
+                basePackage,
+                module,
+                entity
+        );
 
         unit.clazz()
 
                 .service()
 
                 .configure();
-
-        String entity = entityName;
 
         unit.clazz()
 

@@ -7,12 +7,12 @@ import com.github.javaparser.ast.body.MethodDeclaration;
 
 import java.util.List;
 
-public final class UpdateMapperMethodFactory {
+public final class CreateMapperMethodFactory {
 
-    private static final MapperAssignmentGenerator generator =
+    private static final MapperAssignmentGenerator bodyGenerator =
             new MapperAssignmentGenerator();
 
-    private UpdateMapperMethodFactory() {
+    private CreateMapperMethodFactory() {
     }
 
     public static MethodDeclaration build(
@@ -24,22 +24,20 @@ public final class UpdateMapperMethodFactory {
 
                 .publicMethod()
 
-                .name("update")
+                .name("toEntity")
 
-                .returnType("void")
-
-                .parameter(
-                        entityName,
-                        "entity"
-                )
+                .returnType(entityName)
 
                 .parameter(
-                        "Update" + entityName + "Request",
+                        "Create" + entityName + "Request",
                         "request"
                 )
 
                 .body(
-                        generator.updateEntity(fields)
+                        bodyGenerator.entityFromRequest(
+                                entityName,
+                                fields
+                        )
                 )
 
                 .build();

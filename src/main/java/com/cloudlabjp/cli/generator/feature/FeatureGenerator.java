@@ -1,10 +1,9 @@
 package com.cloudlabjp.cli.generator.feature;
 
-import java.nio.file.Path;
+import com.cloudlabjp.cli.generator.pipeline.GenerationContext;
 
 public interface FeatureGenerator {
 
-    void generate(Path file,
-                  String entityName);
+    void generate(GenerationContext context);
 
 }

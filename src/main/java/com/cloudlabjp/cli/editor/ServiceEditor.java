@@ -2,6 +2,7 @@ package com.cloudlabjp.cli.editor;
 
 import com.cloudlabjp.cli.editor.annotation.JavaAnnotation;
 import com.cloudlabjp.cli.generator.factory.field.FinalFieldFactory;
+import com.github.javaparser.ast.body.MethodDeclaration;
 
 public class ServiceEditor {
 
@@ -32,6 +33,16 @@ public class ServiceEditor {
                 .add(
                         FinalFieldFactory.build(type, name)
                 );
+
+    }
+
+    public void addMethod(MethodDeclaration method) {
+
+        if (!editor.hasMethod(method.getNameAsString())) {
+
+            editor.addMethod(method);
+
+        }
 
     }
 

@@ -1,23 +1,24 @@
 package com.cloudlabjp.cli.generator.feature.mapper;
 
-import com.cloudlabjp.cli.generator.factory.method.MapperMethodFactory;
+import com.cloudlabjp.cli.generator.factory.method.CreateMapperMethodFactory;
 import com.cloudlabjp.cli.generator.feature.BaseFeatureGenerator;
 import com.cloudlabjp.cli.generator.feature.FeatureGenerator;
-
-import java.nio.file.Path;
+import com.cloudlabjp.cli.generator.pipeline.GenerationContext;
 
 public class ToEntityFeatureGenerator
         extends BaseFeatureGenerator
         implements FeatureGenerator {
 
     @Override
-    public void generate(Path mapperFile,
-                         String entityName) {
+    public void generate(GenerationContext context) {
 
         addMethod(
-                mapperFile,
+                context.file(),
                 "toEntity",
-                MapperMethodFactory.toEntity(entityName)
+                CreateMapperMethodFactory.build(
+                        context.entityName(),
+                        context.fields()
+                )
         );
 
     }

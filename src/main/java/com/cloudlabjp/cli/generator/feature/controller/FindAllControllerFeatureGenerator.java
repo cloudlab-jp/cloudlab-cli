@@ -4,20 +4,19 @@ import com.cloudlabjp.cli.generator.factory.method.FindAllControllerMethodFactor
 import com.cloudlabjp.cli.generator.feature.BaseFeatureGenerator;
 import com.cloudlabjp.cli.generator.feature.FeatureGenerator;
 
-import java.nio.file.Path;
+import com.cloudlabjp.cli.generator.pipeline.GenerationContext;
 
 public class FindAllControllerFeatureGenerator
         extends BaseFeatureGenerator
         implements FeatureGenerator {
 
     @Override
-    public void generate(Path controllerFile,
-                         String entityName) {
+public void generate(GenerationContext context) {
 
         addMethod(
-                controllerFile,
+                context.file(),
                 "findAll",
-                FindAllControllerMethodFactory.build(entityName)
+                FindAllControllerMethodFactory.build(context.entityName())
         );
 
     }

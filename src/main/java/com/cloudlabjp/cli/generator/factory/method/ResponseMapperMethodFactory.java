@@ -1,18 +1,18 @@
 package com.cloudlabjp.cli.generator.factory.method;
 
 import com.cloudlabjp.cli.ast.method.MethodAstBuilder;
-import com.cloudlabjp.cli.generator.body.mapper.MapperAssignmentGenerator;
+import com.cloudlabjp.cli.generator.body.mapper.ResponseMapperBodyGenerator;
 import com.cloudlabjp.cli.model.FieldDefinition;
 import com.github.javaparser.ast.body.MethodDeclaration;
 
 import java.util.List;
 
-public final class UpdateMapperMethodFactory {
+public final class ResponseMapperMethodFactory {
 
-    private static final MapperAssignmentGenerator generator =
-            new MapperAssignmentGenerator();
+    private static final ResponseMapperBodyGenerator bodyGenerator =
+            new ResponseMapperBodyGenerator();
 
-    private UpdateMapperMethodFactory() {
+    private ResponseMapperMethodFactory() {
     }
 
     public static MethodDeclaration build(
@@ -24,22 +24,20 @@ public final class UpdateMapperMethodFactory {
 
                 .publicMethod()
 
-                .name("update")
+                .name("toResponse")
 
-                .returnType("void")
+                .returnType(entityName + "Response")
 
                 .parameter(
                         entityName,
                         "entity"
                 )
 
-                .parameter(
-                        "Update" + entityName + "Request",
-                        "request"
-                )
-
                 .body(
-                        generator.updateEntity(fields)
+                        bodyGenerator.generate(
+                                entityName,
+                                fields
+                        )
                 )
 
                 .build();

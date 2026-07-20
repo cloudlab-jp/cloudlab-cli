@@ -12,8 +12,7 @@ import java.nio.file.Path;
         description = "CloudLab CLI",
         subcommands = {
                 ModuleCommand.class,
-                EntityCommand.class,
-                AstCommand.class
+                EntityCommand.class
         }
 )
 public class RootCommand implements Runnable {

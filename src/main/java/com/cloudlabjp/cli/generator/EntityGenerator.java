@@ -118,78 +118,73 @@ public class EntityGenerator {
                     "domain/model/" + entityName + ".java"
             );
 
-            PipelineFactory.entity()
-
-                    .execute(
-
-                            new GenerationContext(
-
-                                    project,
-
-                                    moduleName,
-
-                                    entityFile,
-
-                                    entityName,
-
-                                    fields
-
-                            )
-
+            GenerationContext entityContext =
+                    new GenerationContext(
+                            project,
+                            moduleName,
+                            entityFile,
+                            entityName,
+                            fields
                     );
 
-            Path serviceFile = modulePath.resolve(
-                    "application/service/" + entityName + "Service.java"
-            );
+            PipelineFactory.entity()
+                    .execute(entityContext);
 
             Path repositoryFile = modulePath.resolve(
                     "domain/repository/" + entityName + "Repository.java"
             );
 
+            GenerationContext repositoryContext =
+                    new GenerationContext(
+                            project,
+                            moduleName,
+                            repositoryFile,
+                            entityName,
+                            fields
+                    );
+
             PipelineFactory.repository()
+                    .execute(repositoryContext);
 
-                    .execute(
+            Path serviceFile = modulePath.resolve(
+                    "application/service/" + entityName + "Service.java"
+            );
 
-                            new GenerationContext(
-
-                                    project,
-
-                                    moduleName,
-
-                                    repositoryFile,
-
-                                    entityName,
-
-                                    fields
-
-                            )
-
+            GenerationContext serviceContext =
+                    new GenerationContext(
+                            project,
+                            moduleName,
+                            serviceFile,
+                            entityName,
+                            fields
                     );
 
             serviceConfigurer.configure(
-
                     serviceFile,
-
                     project.basePackage(),
-
                     moduleName,
-
                     entityName
-
             );
 
             serviceFeatureGenerator.generate(
-                    serviceFile,
-                    entityName
+                    serviceContext
             );
 
             Path mapperFile = modulePath.resolve(
                     "application/mapper/" + entityName + "Mapper.java"
             );
 
+            GenerationContext mapperContext =
+                    new GenerationContext(
+                            project,
+                            moduleName,
+                            mapperFile,
+                            entityName,
+                            fields
+                    );
+
             mapperFeatureGenerator.generate(
-                    mapperFile,
-                    entityName
+                    mapperContext
             );
 
             Path controllerFile = modulePath.resolve(
@@ -198,23 +193,24 @@ public class EntityGenerator {
                             + "Controller.java"
             );
 
-
+            GenerationContext controllerContext =
+                    new GenerationContext(
+                            project,
+                            moduleName,
+                            controllerFile,
+                            entityName,
+                            fields
+                    );
 
             controllerConfigurer.configure(
-
                     controllerFile,
-
                     project.basePackage(),
-
                     moduleName,
-
                     entityName
-
             );
 
             controllerFeatureGenerator.generate(
-                    controllerFile,
-                    entityName
+                    controllerContext
             );
 
         } catch (IOException e) {

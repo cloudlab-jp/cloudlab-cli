@@ -1,28 +1,27 @@
 package com.cloudlabjp.cli.generator.feature;
 
-import java.nio.file.Path;
+import com.cloudlabjp.cli.generator.pipeline.GenerationContext;
+
 import java.util.List;
 
-public class CompositeFeatureGenerator implements FeatureGenerator {
+public class CompositeFeatureGenerator
+        implements FeatureGenerator {
 
     private final List<FeatureGenerator> generators;
 
-    public CompositeFeatureGenerator(List<FeatureGenerator> generators) {
+    public CompositeFeatureGenerator(
+            List<FeatureGenerator> generators
+    ) {
         this.generators = generators;
     }
 
     @Override
-    public void generate(Path file,
-                         String entityName) {
+    public void generate(
+            GenerationContext context
+    ) {
 
-        for (FeatureGenerator generator : generators) {
-
-            generator.generate(
-                    file,
-                    entityName
-            );
-
-        }
+        generators.forEach(generator ->
+                generator.generate(context));
 
     }
 

@@ -4,20 +4,19 @@ import com.cloudlabjp.cli.generator.factory.method.UpdateMethodFactory;
 import com.cloudlabjp.cli.generator.feature.BaseFeatureGenerator;
 import com.cloudlabjp.cli.generator.feature.FeatureGenerator;
 
-import java.nio.file.Path;
+import com.cloudlabjp.cli.generator.pipeline.GenerationContext;
 
 public class UpdateFeatureGenerator
         extends BaseFeatureGenerator
         implements FeatureGenerator {
 
     @Override
-    public void generate(Path serviceFile,
-                         String entityName) {
+public void generate(GenerationContext context) {
 
         addMethod(
-                serviceFile,
+                context.file(),
                 "update",
-                UpdateMethodFactory.build(entityName)
+                UpdateMethodFactory.build(context.entityName())
         );
 
     }
