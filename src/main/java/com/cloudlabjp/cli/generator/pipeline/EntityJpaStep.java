@@ -4,8 +4,11 @@ import com.cloudlabjp.cli.editor.CompilationUnitEditor;
 import com.cloudlabjp.cli.editor.JavaSourceEditor;
 import com.cloudlabjp.cli.editor.configurer.EntityConfigurer;
 import com.cloudlabjp.cli.editor.configurer.FieldConfigurer;
+import com.cloudlabjp.cli.editor.configurer.RelationshipConfigurer;
 import com.cloudlabjp.cli.editor.configurer.imports.EntityImportsConfigurer;
 import com.cloudlabjp.cli.editor.configurer.ValidationImportsConfigurer;
+import com.cloudlabjp.cli.editor.configurer.imports.RelationshipImportsConfigurer;
+import com.cloudlabjp.cli.model.FieldDefinition;
 
 public class EntityJpaStep implements GeneratorStep {
 
@@ -20,6 +23,12 @@ public class EntityJpaStep implements GeneratorStep {
 
     private final ValidationImportsConfigurer validations =
             new ValidationImportsConfigurer();
+
+    private final RelationshipConfigurer relationships =
+            new RelationshipConfigurer();
+
+    private final RelationshipImportsConfigurer relationshipImports =
+            new RelationshipImportsConfigurer();
 
     @Override
     public void execute(GenerationContext context) {
@@ -49,6 +58,20 @@ public class EntityJpaStep implements GeneratorStep {
                 unit,
                 context.fields()
         );
+
+        relationships.configure(
+                unit,
+                context.fields()
+        );
+
+        for (FieldDefinition field : context.fields()) {
+
+            relationshipImports.configure(
+                    unit,
+                    field.kind()
+            );
+
+        }
 
         editor.save();
 

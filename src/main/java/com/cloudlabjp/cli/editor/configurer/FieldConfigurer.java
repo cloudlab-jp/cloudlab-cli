@@ -15,15 +15,13 @@ public class FieldConfigurer {
 
         for (FieldDefinition field : fields) {
 
+            if (unit.clazz().hasField(field.name())) {
+                continue;
+            }
+
             unit.clazz()
-
                     .fields()
-
-                    .add(
-
-                            FieldFactory.build(field)
-
-                    );
+                    .add(FieldFactory.build(field));
 
         }
 

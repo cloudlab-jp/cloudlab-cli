@@ -8,7 +8,9 @@ public record FieldDefinition(
 
         FieldKind kind,
 
-        boolean required
+        boolean required,
+
+        RelationshipDefinition relationship
 
 ) {
 }

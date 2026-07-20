@@ -30,7 +30,10 @@ public class FieldEditor {
 
                     .stream()
 
-                    .filter(f -> f.getVariable(0).getNameAsString().equals(fieldName))
+                    .filter(f ->
+                            f.getVariable(0)
+                                    .getNameAsString()
+                                    .equals(fieldName))
 
                     .findFirst()
 
@@ -41,6 +44,28 @@ public class FieldEditor {
         }
 
         clazz.addMember(field);
+
+        return new EditableField(field);
+
+    }
+
+    public EditableField field(String name) {
+
+        FieldDeclaration field = clazz.getFields()
+
+                .stream()
+
+                .filter(f ->
+                        f.getVariable(0)
+                                .getNameAsString()
+                                .equals(name))
+
+                .findFirst()
+
+                .orElseThrow(() ->
+                        new IllegalArgumentException(
+                                "Field not found: " + name
+                        ));
 
         return new EditableField(field);
 

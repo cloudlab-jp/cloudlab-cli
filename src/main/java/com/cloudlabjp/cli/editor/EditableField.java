@@ -1,5 +1,6 @@
 package com.cloudlabjp.cli.editor;
 
+import com.github.javaparser.StaticJavaParser;
 import com.github.javaparser.ast.body.FieldDeclaration;
 import com.github.javaparser.ast.expr.AnnotationExpr;
 
@@ -11,12 +12,26 @@ public class EditableField {
         this.field = field;
     }
 
-    public EditableField annotate(AnnotationExpr annotation) {
+    private void addIfMissing(AnnotationExpr annotation) {
 
-        field.addAnnotation(annotation);
+        String name = annotation.getNameAsString();
+
+        boolean exists = field.getAnnotations()
+                .stream()
+                .anyMatch(a -> a.getNameAsString().equals(name));
+
+        if (!exists) {
+            field.addAnnotation(annotation);
+        }
+    }
+
+    public EditableField annotate(String annotation) {
+
+        addIfMissing(
+                StaticJavaParser.parseAnnotation(annotation)
+        );
 
         return this;
-
     }
 
 }

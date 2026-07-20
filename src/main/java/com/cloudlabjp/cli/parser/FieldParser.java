@@ -1,15 +1,19 @@
 package com.cloudlabjp.cli.parser;
 
 import com.cloudlabjp.cli.model.FieldDefinition;
-import com.cloudlabjp.cli.model.FieldKind;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class FieldParser {
 
+    private final RelationshipParser relationshipParser =
+            new RelationshipParser();
+
     public List<FieldDefinition> parse(List<String> values) {
+
         System.out.println(">>> FieldParser ejecutándose");
+
         List<FieldDefinition> fields = new ArrayList<>();
 
         if (values == null || values.isEmpty()) {
@@ -21,9 +25,11 @@ public class FieldParser {
             String[] parts = value.split(":");
 
             if (parts.length != 2) {
+
                 throw new IllegalArgumentException(
                         "Invalid field definition: " + value
                 );
+
             }
 
             String name = parts[0].trim();
@@ -43,18 +49,11 @@ public class FieldParser {
 
             }
 
-            FieldKind kind = FieldKind.SIMPLE;
-
-            if (type.endsWith("#")) {
-
-                kind = FieldKind.MANY_TO_ONE;
-
-                type = type.substring(
-                        0,
-                        type.length() - 1
-                );
-
-            }
+            ParsedRelationship parsed =
+                    relationshipParser.parse(
+                            name,
+                            type
+                    );
 
             fields.add(
 
@@ -62,18 +61,22 @@ public class FieldParser {
 
                             name,
 
-                            type,
+                            parsed.type(),
 
-                            kind,
+                            parsed.kind(),
 
-                            required
+                            required,
+
+                            parsed.relationship()
 
                     )
 
             );
 
         }
+
         System.out.println(fields);
+
         return fields;
 
     }
