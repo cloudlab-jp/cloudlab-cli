@@ -30,10 +30,9 @@ public class EntityCommand implements Runnable {
 
     @Option(
             names = "--fields",
-            split = ",",
             description = "Entity fields. Example: name:String,price:BigDecimal"
     )
-    private List<String> fields;
+    private String fields;
 
     private final EntityGeneratorService service =
             new EntityGeneratorService();

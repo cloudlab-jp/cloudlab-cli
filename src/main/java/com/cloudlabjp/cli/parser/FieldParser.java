@@ -9,17 +9,17 @@ import java.util.List;
 
 public class FieldParser {
 
-    public List<FieldDefinition> parse(List<String> values) {
+    public List<FieldDefinition> parse(String values) {
 
         System.out.println(">>> FieldParser ejecutándose");
 
         List<FieldDefinition> fields = new ArrayList<>();
 
-        if (values == null || values.isEmpty()) {
+        if (values == null || values.isBlank()) {
             return fields;
         }
 
-        for (String value : values) {
+        for (String value : splitFields(values)) {
 
             String[] parts = value.split(":");
 
@@ -49,6 +49,8 @@ public class FieldParser {
             FieldKind kind = FieldKind.SIMPLE;
 
             RelationshipDefinition relationship = null;
+
+            List<String> enumValues = List.of();
 
             if (type.endsWith("#")) {
 
@@ -87,6 +89,31 @@ public class FieldParser {
                         type.length() - 1
                 );
 
+                int start = type.indexOf('(');
+
+                if (start > 0 && type.endsWith(")")) {
+
+                    String enumName =
+                            type.substring(0, start);
+
+                    String valuesText =
+                            type.substring(
+                                    start + 1,
+                                    type.length() - 1
+                            );
+
+                    enumValues = List.of(
+                                    valuesText.split(",")
+                            )
+                            .stream()
+                            .map(String::trim)
+                            .filter(v -> !v.isBlank())
+                            .toList();
+
+                    type = enumName;
+
+                }
+
             }
 
             fields.add(
@@ -101,7 +128,9 @@ public class FieldParser {
 
                             required,
 
-                            relationship
+                            relationship,
+
+                            enumValues
 
                     )
 
@@ -112,6 +141,52 @@ public class FieldParser {
         System.out.println(fields);
 
         return fields;
+
+    }
+
+    private List<String> splitFields(String input) {
+
+        List<String> result = new ArrayList<>();
+
+        StringBuilder current = new StringBuilder();
+
+        int parentheses = 0;
+
+        for (char c : input.toCharArray()) {
+
+            switch (c) {
+
+                case '(' -> parentheses++;
+
+                case ')' -> parentheses--;
+
+                case ',' -> {
+
+                    if (parentheses == 0) {
+
+                        result.add(current.toString().trim());
+
+                        current.setLength(0);
+
+                        continue;
+
+                    }
+
+                }
+
+            }
+
+            current.append(c);
+
+        }
+
+        if (!current.isEmpty()) {
+
+            result.add(current.toString().trim());
+
+        }
+
+        return result;
 
     }
 

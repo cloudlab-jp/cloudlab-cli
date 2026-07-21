@@ -1,5 +1,7 @@
 package com.cloudlabjp.cli.model;
 
+import java.util.List;
+
 public record FieldDefinition(
 
         String name,
@@ -10,7 +12,9 @@ public record FieldDefinition(
 
         boolean required,
 
-        RelationshipDefinition relationship
+        RelationshipDefinition relationship,
+
+        List<String> enumValues
 
 ) {
 }

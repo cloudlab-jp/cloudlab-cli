@@ -241,13 +241,10 @@ public class EntityFileFactory {
                 files.add(
 
                         enumFactory.create(
-
                                 project,
-
                                 module,
-
-                                field.type()
-
+                                field.type(),
+                                field.enumValues()
                         )
 
                 );
