@@ -4,15 +4,17 @@ Los campos se definen mediante la opción `--fields`.
 
 ## Sintaxis
 
-| Sintaxis | Significado |
-|----------|-------------|
-| `name:String` | Campo simple |
-| `name:String!` | Campo requerido |
-| `total:BigDecimal` | Tipos Java soportados |
-| `customer:Customer#` | Relación ManyToOne |
-| `items:OrderItem[]` | Relación OneToMany (automática) |
-| `roles:Role<>` | Relación ManyToMany *(pendiente)* |
-| `status:OrderStatus@` | Enum |
+# Fields syntax
+
+| Sintaxis                              | Significado             |
+| ------------------------------------- | ----------------------- |
+| `name:String`                         | Campo simple            |
+| `name:String!`                        | Campo obligatorio       |
+| `customer:Customer#`                  | ManyToOne              |
+| `profile:Profile&`                    | OneToOne               |
+| `items:OrderItem[]`                   | OneToMany (inverso)    |
+| `roles:Role<>`                        | ManyToMany             |
+| `status:Status(ACTIVE,PAID,CANCELLED)@` | Enum                  |
 
 ---
 

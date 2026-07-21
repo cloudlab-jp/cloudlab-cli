@@ -1,6 +1,7 @@
 package com.cloudlabjp.cli.editor;
 
 import com.cloudlabjp.cli.editor.relationship.OneToManyEditor;
+import com.cloudlabjp.cli.editor.relationship.OneToOneEditor;
 import com.github.javaparser.ast.body.ClassOrInterfaceDeclaration;
 import com.github.javaparser.ast.body.MethodDeclaration;
 
@@ -108,6 +109,12 @@ public class ClassEditor {
     public OneToManyEditor oneToMany() {
 
         return new OneToManyEditor(this);
+
+    }
+
+    public OneToOneEditor oneToOne() {
+
+        return new OneToOneEditor(this);
 
     }
 

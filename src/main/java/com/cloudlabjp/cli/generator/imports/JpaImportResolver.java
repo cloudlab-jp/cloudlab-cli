@@ -75,6 +75,7 @@ public class JpaImportResolver {
 
         imports.add("jakarta.persistence.OneToOne");
         imports.add("jakarta.persistence.JoinColumn");
+        imports.add("jakarta.persistence.FetchType");
 
     }
 

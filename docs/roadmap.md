@@ -16,11 +16,11 @@
 
 ---
 
-## Relationships
+## Relations
 
-- [x] ManyToOne (`#`)
-- [x] Automatic OneToMany generation
-- [ ] OneToOne
+- [x] ManyToOne
+- [x] OneToMany
+- [x] OneToOne
 - [ ] ManyToMany
 
 ---

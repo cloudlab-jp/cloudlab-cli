@@ -256,4 +256,41 @@ public final class JavaAnnotation {
         return annotation;
 
     }
+
+    public static AnnotationExpr oneToOneOwner() {
+
+        NormalAnnotationExpr annotation =
+                new NormalAnnotationExpr();
+
+        annotation.setName("OneToOne");
+
+        annotation.addPair(
+                "fetch",
+                new FieldAccessExpr(
+                        new NameExpr("FetchType"),
+                        "LAZY"
+                )
+        );
+
+        return annotation;
+
+    }
+
+    public static AnnotationExpr oneToOne(
+            String mappedBy
+    ) {
+
+        NormalAnnotationExpr annotation =
+                new NormalAnnotationExpr();
+
+        annotation.setName("OneToOne");
+
+        annotation.addPair(
+                "mappedBy",
+                new StringLiteralExpr(mappedBy)
+        );
+
+        return annotation;
+
+    }
 }

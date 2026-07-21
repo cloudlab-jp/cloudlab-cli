@@ -16,6 +16,8 @@ public class RelationshipImportsConfigurer {
 
             case ONE_TO_MANY -> configureOneToMany(unit);
 
+            case ONE_TO_ONE -> configureOneToOne(unit);
+
             case MANY_TO_MANY -> configureManyToMany(unit);
 
             default -> {
@@ -58,6 +60,10 @@ public class RelationshipImportsConfigurer {
     private void configureOneToOne(
             CompilationUnitEditor unit
     ) {
+
+        unit.imports()
+
+                .add("jakarta.persistence.OneToOne");
 
     }
 

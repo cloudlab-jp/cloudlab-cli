@@ -22,39 +22,90 @@ public class RelationshipStep implements GeneratorStep {
 
         for (FieldDefinition field : context.fields()) {
 
-            if (field.kind() != FieldKind.MANY_TO_ONE) {
-                continue;
+            switch (field.kind()) {
+
+                case MANY_TO_ONE ->
+                        configureOneToMany(context, field);
+
+                case ONE_TO_ONE ->
+                        configureOneToOne(context, field);
+
+                default -> {
+                }
+
             }
 
-            Path entityFile =
-                    entityFinder.findEntity(
-                            context.project(),
-                            field.type()
-                    );
-
-            JavaSourceEditor editor =
-                    new JavaSourceEditor(entityFile);
-
-            CompilationUnitEditor unit =
-                    editor.editor();
-
-            imports.configure(
-                    unit,
-                    FieldKind.ONE_TO_MANY
-            );
-
-            unit.clazz()
-
-                    .oneToMany()
-
-                    .add(
-                            context.entityName(),
-                            field.name()
-                    );
-
-            editor.save();
-
         }
+
+    }
+
+    private void configureOneToMany(
+            GenerationContext context,
+            FieldDefinition field
+    ) {
+
+        Path entityFile =
+                entityFinder.findEntity(
+                        context.project(),
+                        field.type()
+                );
+
+        JavaSourceEditor editor =
+                new JavaSourceEditor(entityFile);
+
+        CompilationUnitEditor unit =
+                editor.editor();
+
+        imports.configure(
+                unit,
+                FieldKind.ONE_TO_MANY
+        );
+
+        unit.clazz()
+
+                .oneToMany()
+
+                .add(
+                        context.entityName(),
+                        field.name()
+                );
+
+        editor.save();
+
+    }
+
+    private void configureOneToOne(
+            GenerationContext context,
+            FieldDefinition field
+    ) {
+
+        Path entityFile =
+                entityFinder.findEntity(
+                        context.project(),
+                        field.type()
+                );
+
+        JavaSourceEditor editor =
+                new JavaSourceEditor(entityFile);
+
+        CompilationUnitEditor unit =
+                editor.editor();
+
+        imports.configure(
+                unit,
+                FieldKind.ONE_TO_ONE
+        );
+
+        unit.clazz()
+
+                .oneToOne()
+
+                .add(
+                        context.entityName(),
+                        field.name()
+                );
+
+        editor.save();
 
     }
 

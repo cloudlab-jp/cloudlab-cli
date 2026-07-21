@@ -66,18 +66,18 @@ public class FieldParser {
                         name + "_id"
                 );
 
-            } else if (type.endsWith("[]")) {
+            } else if (type.endsWith("&")) {
 
-                kind = FieldKind.ONE_TO_MANY;
+                kind = FieldKind.ONE_TO_ONE;
 
                 type = type.substring(
                         0,
-                        type.length() - 2
+                        type.length() - 1
                 );
 
                 relationship = new RelationshipDefinition(
                         null,
-                        null
+                        name + "_id"
                 );
 
             } else if (type.endsWith("@")) {
