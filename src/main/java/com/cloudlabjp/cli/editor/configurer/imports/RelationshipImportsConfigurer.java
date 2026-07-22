@@ -71,6 +71,14 @@ public class RelationshipImportsConfigurer {
             CompilationUnitEditor unit
     ) {
 
+        unit.imports()
+
+                .add("jakarta.persistence.ManyToMany")
+
+                .add("java.util.List")
+
+                .add("java.util.ArrayList");
+
     }
 
 }

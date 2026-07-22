@@ -79,8 +79,35 @@ public class FieldParser {
                         null,
                         name + "_id"
                 );
+            } else if (type.endsWith("[]")) {
 
-            } else if (type.endsWith("@")) {
+                    kind = FieldKind.ONE_TO_MANY;
+
+                    type = type.substring(
+                            0,
+                            type.length() - 2
+                    );
+
+                    relationship = new RelationshipDefinition(
+                            null,
+                            null
+                    );
+
+                } else if (type.endsWith("<>")) {
+
+                    kind = FieldKind.MANY_TO_MANY;
+
+                    type = type.substring(
+                            0,
+                            type.length() - 2
+                    );
+
+                    relationship = new RelationshipDefinition(
+                            null,
+                            null
+                    );
+
+                }  else if (type.endsWith("@")) {
 
                 kind = FieldKind.ENUM;
 

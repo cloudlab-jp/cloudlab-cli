@@ -14,6 +14,7 @@ public class FieldConfigurer {
 
     public void configure(
             CompilationUnitEditor unit,
+            String ownerEntity,
             List<FieldDefinition> fields
     ) {
 
@@ -27,7 +28,10 @@ public class FieldConfigurer {
 
                             .add(
 
-                                    FieldFactory.build(field)
+                                    FieldFactory.build(
+                                            ownerEntity,
+                                            field
+                                    )
 
                             );
 

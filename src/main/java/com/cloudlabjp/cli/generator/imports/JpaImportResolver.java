@@ -69,6 +69,9 @@ public class JpaImportResolver {
         imports.add("jakarta.persistence.JoinTable");
         imports.add("jakarta.persistence.JoinColumn");
 
+        imports.add("java.util.List");
+        imports.add("java.util.ArrayList");
+
     }
 
     private void resolveOneToOne(Set<String> imports) {

@@ -9,6 +9,7 @@ public final class FieldFactory {
     }
 
     public static FieldDeclaration build(
+            String ownerEntity,
             FieldDefinition field
     ) {
 
@@ -25,13 +26,15 @@ public final class FieldFactory {
 
             case ONE_TO_ONE ->
                     OneToOneFieldFactory.build(field);
-// o ManyToOneFieldFactory.build(field) temporalmente
 
             case ONE_TO_MANY ->
                     OneToManyFieldFactory.build(field);
 
             case MANY_TO_MANY ->
-                    ManyToManyFieldFactory.build(field);
+                    ManyToManyFieldFactory.build(
+                            ownerEntity,
+                            field
+                    );
 
         };
 

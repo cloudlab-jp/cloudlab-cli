@@ -293,4 +293,77 @@ public final class JavaAnnotation {
         return annotation;
 
     }
+
+    public static AnnotationExpr manyToManyOwner() {
+
+        return new MarkerAnnotationExpr("ManyToMany");
+
+    }
+
+    public static AnnotationExpr joinTable(
+            String ownerTable,
+            String inverseTable
+    ) {
+
+        NormalAnnotationExpr annotation =
+                new NormalAnnotationExpr();
+
+        annotation.setName("JoinTable");
+
+        annotation.addPair(
+                "name",
+                new StringLiteralExpr(
+                        ownerTable + "_" + inverseTable
+                )
+        );
+
+        annotation.addPair(
+                "joinColumns",
+                joinColumnAnnotation(ownerTable + "_id")
+        );
+
+        annotation.addPair(
+                "inverseJoinColumns",
+                joinColumnAnnotation(inverseTable + "_id")
+        );
+
+        return annotation;
+
+    }
+
+    private static NormalAnnotationExpr joinColumnAnnotation(
+            String columnName
+    ) {
+
+        NormalAnnotationExpr annotation =
+                new NormalAnnotationExpr();
+
+        annotation.setName("JoinColumn");
+
+        annotation.addPair(
+                "name",
+                new StringLiteralExpr(columnName)
+        );
+
+        return annotation;
+
+    }
+
+    public static AnnotationExpr manyToMany(
+            String mappedBy
+    ) {
+
+        NormalAnnotationExpr annotation =
+                new NormalAnnotationExpr();
+
+        annotation.setName("ManyToMany");
+
+        annotation.addPair(
+                "mappedBy",
+                new StringLiteralExpr(mappedBy)
+        );
+
+        return annotation;
+
+    }
 }

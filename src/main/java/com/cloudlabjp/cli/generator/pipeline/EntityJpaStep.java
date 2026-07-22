@@ -55,9 +55,10 @@ public class EntityJpaStep implements GeneratorStep {
         );
 
         fields.configure(
-                unit,
-                context.fields()
-        );
+        unit,
+        context.entityName(),
+        context.fields()
+);
 
         relationships.configure(
                 unit,

@@ -29,7 +29,8 @@ public class RelationshipStep implements GeneratorStep {
 
                 case ONE_TO_ONE ->
                         configureOneToOne(context, field);
-
+                case MANY_TO_MANY ->
+                        configureManyToMany(context, field);
                 default -> {
                 }
 
@@ -99,6 +100,41 @@ public class RelationshipStep implements GeneratorStep {
         unit.clazz()
 
                 .oneToOne()
+
+                .add(
+                        context.entityName(),
+                        field.name()
+                );
+
+        editor.save();
+
+    }
+
+    private void configureManyToMany(
+            GenerationContext context,
+            FieldDefinition field
+    ) {
+
+        Path entityFile =
+                entityFinder.findEntity(
+                        context.project(),
+                        field.type()
+                );
+
+        JavaSourceEditor editor =
+                new JavaSourceEditor(entityFile);
+
+        CompilationUnitEditor unit =
+                editor.editor();
+
+        imports.configure(
+                unit,
+                FieldKind.MANY_TO_MANY
+        );
+
+        unit.clazz()
+
+                .manyToMany()
 
                 .add(
                         context.entityName(),
