@@ -19,9 +19,9 @@
 ## Relations
 
 - [x] ManyToOne
-- [x] OneToMany
-- [x] OneToOne
-- [ ] ManyToMany
+- [x] OneToMany (automatic inverse generation)
+- [x] OneToOne (bidirectional)
+- [x] ManyToMany (bidirectional)
 
 ---
 
@@ -39,8 +39,9 @@
 ## DTO Mapping
 
 - [x] Entity → DTO
-- [x] DTO → Entity
-- [x] Relationship mapped as Long id
+- [x] Relationship fields exposed as IDs
+- [ ] DTO → Entity relationship resolution
+- [ ] Collection relationship mapping
 
 ---
 
@@ -51,14 +52,29 @@
 
 ---
 
+## ✅ Completed
+
+- CRUD generation
+- DTO generation
+- Bean Validation
+- Enum support
+- Bidirectional JPA relationships
+- Automatic imports
+- Automatic inverse relationship generation
+- JavaParser-based source generation
+
+---
+
 ## Future
 
+- [ ] BaseEntity / Inheritance
+- [ ] Auditing
+- [ ] Soft Delete
 - [ ] Enum values generation
+- [ ] Smart Mapper
 - [ ] Swagger/OpenAPI
 - [ ] Pagination
 - [ ] Filters
-- [ ] Auditing
-- [ ] Soft Delete
 - [ ] Composite Keys
 - [ ] Embedded Objects
 - [ ] Multi-module support
