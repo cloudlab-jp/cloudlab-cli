@@ -1,12 +1,19 @@
 package {{basePackage}}.modules.{{module}}.application.service;
 
-import org.junit.jupiter.api.Test;
+{{imports}}
 
+@ExtendWith(MockitoExtension.class)
 class {{className}}ServiceTest {
 
-    @Test
-    void shouldCreate() {
+    @Mock
+    private {{className}}Repository repository;
 
-    }
+    @Mock
+    private {{className}}Mapper mapper;
+
+    @InjectMocks
+    private {{className}}Service service;
+
+{{tests}}
 
 }

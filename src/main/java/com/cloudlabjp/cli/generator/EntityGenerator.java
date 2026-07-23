@@ -13,6 +13,7 @@ import com.cloudlabjp.cli.generator.pipeline.GeneratorPipeline;
 import com.cloudlabjp.cli.generator.pipeline.PipelineFactory;
 import com.cloudlabjp.cli.generator.repository.RepositoryFileFactory;
 import com.cloudlabjp.cli.generator.service.ServiceFileFactory;
+import com.cloudlabjp.cli.generator.test.TestFileFactoryRegistry;
 import com.cloudlabjp.cli.model.FieldDefinition;
 import com.cloudlabjp.cli.project.ProjectInfo;
 import com.cloudlabjp.cli.util.ConsolePrinter;
@@ -51,6 +52,9 @@ public class EntityGenerator {
 
     private final ControllerFeatureGenerator controllerFeatureGenerator =
             new ControllerFeatureGenerator();
+
+    private final TestFileFactoryRegistry testFactory =
+            new TestFileFactoryRegistry();
 
     public void generate(ProjectInfo project,
                          String moduleName,
@@ -91,6 +95,14 @@ public class EntityGenerator {
 
         files.addAll(
                 controllerFactory.create(
+                        project,
+                        moduleName,
+                        entityName
+                )
+        );
+
+        files.addAll(
+                testFactory.create(
                         project,
                         moduleName,
                         entityName
