@@ -1,11 +1,14 @@
 package com.cloudlabjp.cli.generator.body.mapper;
 
 import com.cloudlabjp.cli.model.FieldDefinition;
-import com.cloudlabjp.cli.model.FieldKind;
 
 import java.util.List;
 
 public class MapperAssignmentGenerator {
+
+    private final AssignmentGeneratorRegistry resolver =
+            new AssignmentGeneratorRegistry();
+
 
     public String entityFromRequest(
             String entityName,
@@ -20,36 +23,9 @@ public class MapperAssignmentGenerator {
 
         for (FieldDefinition field : fields) {
 
-            if (field.kind() == FieldKind.MANY_TO_ONE
-                    || field.kind() == FieldKind.ONE_TO_ONE) {
-
-                builder.append(field.type())
-                        .append(" ")
-                        .append(field.name())
-                        .append(" = new ")
-                        .append(field.type())
-                        .append("();\n");
-
-                builder.append(field.name())
-                        .append(".setId(request.get")
-                        .append(capitalize(field.name()))
-                        .append("());\n");
-
-                builder.append("entity.set")
-                        .append(capitalize(field.name()))
-                        .append("(")
-                        .append(field.name())
-                        .append(");\n\n");
-
-            } else {
-
-                builder.append("entity.set")
-                        .append(capitalize(field.name()))
-                        .append("(request.get")
-                        .append(capitalize(field.name()))
-                        .append("());\n");
-
-            }
+            builder.append(
+                    resolver.entityAssignment(field)
+            );
 
         }
 
@@ -60,6 +36,7 @@ public class MapperAssignmentGenerator {
     }
 
     public String updateEntity(
+            String entityName,
             List<FieldDefinition> fields
     ) {
 
@@ -67,36 +44,9 @@ public class MapperAssignmentGenerator {
 
         for (FieldDefinition field : fields) {
 
-            if (field.kind() == FieldKind.MANY_TO_ONE
-                    || field.kind() == FieldKind.ONE_TO_ONE) {
-
-                builder.append(field.type())
-                        .append(" ")
-                        .append(field.name())
-                        .append(" = new ")
-                        .append(field.type())
-                        .append("();\n");
-
-                builder.append(field.name())
-                        .append(".setId(request.get")
-                        .append(capitalize(field.name()))
-                        .append("());\n");
-
-                builder.append("entity.set")
-                        .append(capitalize(field.name()))
-                        .append("(")
-                        .append(field.name())
-                        .append(");\n\n");
-
-            } else {
-
-                builder.append("entity.set")
-                        .append(capitalize(field.name()))
-                        .append("(request.get")
-                        .append(capitalize(field.name()))
-                        .append("());\n");
-
-            }
+            builder.append(
+                    resolver.updateAssignment(field)
+            );
 
         }
 
@@ -117,39 +67,15 @@ public class MapperAssignmentGenerator {
 
         for (FieldDefinition field : fields) {
 
-            if (field.kind() == FieldKind.MANY_TO_ONE
-                    || field.kind() == FieldKind.ONE_TO_ONE) {
-
-                builder.append("response.set")
-                        .append(capitalize(field.name()))
-                        .append("(entity.get")
-                        .append(capitalize(field.name()))
-                        .append("() != null ? entity.get")
-                        .append(capitalize(field.name()))
-                        .append("().getId() : null);\n");
-
-            } else {
-
-                builder.append("response.set")
-                        .append(capitalize(field.name()))
-                        .append("(entity.get")
-                        .append(capitalize(field.name()))
-                        .append("());\n");
-
-            }
+            builder.append(
+                    resolver.responseAssignment(field)
+            );
 
         }
 
         builder.append("\nreturn response;");
 
         return builder.toString();
-
-    }
-
-    private String capitalize(String value) {
-
-        return Character.toUpperCase(value.charAt(0))
-                + value.substring(1);
 
     }
 

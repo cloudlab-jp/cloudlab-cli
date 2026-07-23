@@ -168,6 +168,18 @@ public class EntityFileFactory {
                 )
         );
 
+
+
+        mapperVariables.put(
+                "repositories",
+                styleResolver.mapperRepositories(fields)
+        );
+
+        mapperVariables.put(
+                "mapperAnnotations",
+                styleResolver.mapperAnnotations(fields)
+        );
+
         List<GeneratedFile> files = new ArrayList<>();
 
 

@@ -1,13 +1,27 @@
 package com.cloudlabjp.cli.generator.imports;
 
 import com.cloudlabjp.cli.model.FieldDefinition;
-import com.cloudlabjp.cli.model.FieldKind;
 
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
 public class MapperImportResolver {
+
+    private final MapperAnnotationImportResolver annotationImports =
+            new MapperAnnotationImportResolver();
+
+    private final MapperDtoImportResolver dtoImports =
+            new MapperDtoImportResolver();
+
+    private final MapperEntityImportResolver entityImports =
+            new MapperEntityImportResolver();
+
+    private final MapperRelationshipImportResolver relationshipImports =
+            new MapperRelationshipImportResolver();
+
+    private final MapperRepositoryImportResolver repositoryImports =
+            new MapperRepositoryImportResolver();
 
     public String resolve(
             String basePackage,
@@ -16,49 +30,49 @@ public class MapperImportResolver {
             List<FieldDefinition> fields
     ) {
 
-        String base = basePackage
-                + ".modules."
-                + module;
+        Set<String> imports =
+                new LinkedHashSet<>();
 
-        Set<String> imports = new LinkedHashSet<>();
-
-        imports.add(
-                "import " + base + ".application.dto.Create"
-                        + entityName + "Request;"
+        imports.addAll(
+                annotationImports.resolve(fields)
         );
 
-        imports.add(
-                "import " + base + ".application.dto.Update"
-                        + entityName + "Request;"
+        imports.addAll(
+                dtoImports.resolve(
+                        basePackage,
+                        module,
+                        entityName
+                )
         );
 
-        imports.add(
-                "import " + base + ".application.dto."
-                        + entityName + "Response;"
+        imports.addAll(
+                entityImports.resolve(
+                        basePackage,
+                        module,
+                        entityName
+                )
         );
 
-        imports.add(
-                "import " + base + ".domain.model."
-                        + entityName + ";"
+        imports.addAll(
+                relationshipImports.resolve(
+                        basePackage,
+                        module,
+                        fields
+                )
         );
 
-        for (FieldDefinition field : fields) {
+        imports.addAll(
+                repositoryImports.resolve(
+                        basePackage,
+                        module,
+                        fields
+                )
+        );
 
-            if (field.kind() == FieldKind.MANY_TO_ONE
-                    || field.kind() == FieldKind.ONE_TO_ONE) {
-
-                imports.add(
-                        "import " + base
-                                + ".domain.model."
-                                + field.type()
-                                + ";"
-                );
-
-            }
-
-        }
-
-        return String.join(System.lineSeparator(), imports);
+        return String.join(
+                System.lineSeparator(),
+                imports
+        );
 
     }
 

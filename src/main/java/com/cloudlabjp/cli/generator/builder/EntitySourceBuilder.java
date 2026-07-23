@@ -1,5 +1,6 @@
 package com.cloudlabjp.cli.generator.builder;
 
+import com.cloudlabjp.cli.generator.resolver.DtoFieldNameResolver;
 import com.cloudlabjp.cli.generator.resolver.DtoTypeResolver;
 import com.cloudlabjp.cli.model.FieldDefinition;
 
@@ -9,6 +10,9 @@ public class EntitySourceBuilder {
 
     private final DtoTypeResolver dtoTypeResolver =
             new DtoTypeResolver();
+
+    private final DtoFieldNameResolver dtoFieldNameResolver =
+            new DtoFieldNameResolver();
 
     public String buildFields(
             List<FieldDefinition> fields,
@@ -44,10 +48,15 @@ public class EntitySourceBuilder {
                             ? field.type()
                             : dtoTypeResolver.resolve(field);
 
+            String fieldName =
+                    target == FieldTarget.ENTITY
+                            ? field.name()
+                            : dtoFieldNameResolver.resolve(field);
+
             builder.append("    private ")
                     .append(fieldType)
                     .append(" ")
-                    .append(field.name())
+                    .append(fieldName)
                     .append(";")
                     .append(System.lineSeparator())
                     .append(System.lineSeparator());

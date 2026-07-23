@@ -1,6 +1,7 @@
 package com.cloudlabjp.cli.generator.imports;
 
 import com.cloudlabjp.cli.model.FieldDefinition;
+import com.cloudlabjp.cli.model.FieldKind;
 
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -17,6 +18,11 @@ public class JavaTypeImportResolver {
         }
 
         for (FieldDefinition field : fields) {
+
+            // DTOs con colecciones
+            if (field.kind() == FieldKind.MANY_TO_MANY) {
+                imports.add("java.util.List");
+            }
 
             switch (field.type()) {
 

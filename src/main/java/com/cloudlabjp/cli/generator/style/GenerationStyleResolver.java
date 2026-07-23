@@ -5,6 +5,7 @@ import com.cloudlabjp.cli.config.GeneratorConfiguration;
 import com.cloudlabjp.cli.generator.builder.LombokBuilder;
 import com.cloudlabjp.cli.generator.imports.MapperImportResolver;
 import com.cloudlabjp.cli.model.FieldDefinition;
+import com.cloudlabjp.cli.model.FieldKind;
 import com.cloudlabjp.cli.project.ProjectInfo;
 import com.cloudlabjp.cli.template.ImportResolver;
 import com.cloudlabjp.cli.generator.imports.JavaTypeImportResolver;
@@ -194,5 +195,69 @@ public class GenerationStyleResolver {
         return "";
 
     }
+
+    public String mapperAnnotations(
+            List<FieldDefinition> fields
+    ) {
+
+        boolean hasRelations = fields.stream().anyMatch(field ->
+                field.kind() == FieldKind.MANY_TO_ONE
+                        || field.kind() == FieldKind.ONE_TO_ONE
+                        || field.kind() == FieldKind.MANY_TO_MANY
+        );
+
+        if (!hasRelations) {
+            return "";
+        }
+
+        return """
+            @RequiredArgsConstructor
+            @Component
+            """;
+
+    }
+
+    public String mapperRepositories(
+            List<FieldDefinition> fields
+    ) {
+
+        StringBuilder builder = new StringBuilder();
+
+        for (FieldDefinition field : fields) {
+
+            if (!isRelationship(field)) {
+                continue;
+            }
+
+            builder.append("    private final ")
+                    .append(field.type())
+                    .append("Repository ")
+                    .append(Character.toLowerCase(field.type().charAt(0)))
+                    .append(field.type().substring(1))
+                    .append("Repository;")
+                    .append(System.lineSeparator())
+                    .append(System.lineSeparator());
+
+        }
+
+        return builder.toString();
+
+    }
+
+    private boolean isRelationship(FieldDefinition field) {
+
+        return switch (field.kind()) {
+
+            case MANY_TO_ONE,
+                 ONE_TO_ONE,
+                 MANY_TO_MANY -> true;
+
+            default -> false;
+
+        };
+
+    }
+
+
 
 }

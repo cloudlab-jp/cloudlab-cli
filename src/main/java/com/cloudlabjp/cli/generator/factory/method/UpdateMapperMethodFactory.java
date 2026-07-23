@@ -39,7 +39,8 @@ public final class UpdateMapperMethodFactory {
                 )
 
                 .body(
-                        generator.updateEntity(fields)
+                        generator.updateEntity(entityName,
+                                fields)
                 )
 
                 .build();
