@@ -1,5 +1,3 @@
-package {{basePackage}}.modules.{{module}}.application.service;
-
 {{imports}}
 
 @ExtendWith(MockitoExtension.class)

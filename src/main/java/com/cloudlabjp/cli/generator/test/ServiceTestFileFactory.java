@@ -50,7 +50,7 @@ public class ServiceTestFileFactory
         variables.put(
                 "imports",
                 importResolver.resolve(
-                        project.basePackage(),
+                        project,
                         module,
                         entity
                 )
@@ -58,7 +58,7 @@ public class ServiceTestFileFactory
 
         variables.put(
                 "tests",
-                bodyGenerator.generate()
+                bodyGenerator.generate(entity)
         );
 
         return List.of(

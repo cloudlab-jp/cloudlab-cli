@@ -2,34 +2,58 @@ package com.cloudlabjp.cli.generator.test.body;
 
 public class ServiceTestBodyGenerator {
 
-    public String generate() {
+    private final TestGeneratorRegistry registry =
+            new TestGeneratorRegistry();
 
-        return """
-                @Test
-                void shouldCreate() {
+    public String generate(String entity) {
 
-                }
+        StringBuilder builder =
+                new StringBuilder();
 
-                @Test
-                void shouldUpdate() {
+        builder.append(
+                registry.generate(
+                        TestMethodType.CREATE,
+                        entity
+                )
+        );
 
-                }
+        builder.append(System.lineSeparator());
 
-                @Test
-                void shouldDelete() {
+        builder.append(
+                registry.generate(
+                        TestMethodType.UPDATE,
+                        entity
+                )
+        );
 
-                }
+        builder.append(System.lineSeparator());
 
-                @Test
-                void shouldFindById() {
+        builder.append(
+                registry.generate(
+                        TestMethodType.DELETE,
+                        entity
+                )
+        );
 
-                }
+        builder.append(System.lineSeparator());
 
-                @Test
-                void shouldFindAll() {
+        builder.append(
+                registry.generate(
+                        TestMethodType.FIND_BY_ID,
+                        entity
+                )
+        );
 
-                }
-                """;
+        builder.append(System.lineSeparator());
+
+        builder.append(
+                registry.generate(
+                        TestMethodType.FIND_ALL,
+                        entity
+                )
+        );
+
+        return builder.toString();
 
     }
 
